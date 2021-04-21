@@ -6,7 +6,7 @@ imagine playing tetris
 **Game: Tetris**<br/>
 
 Summary of what we plan to do: <br/>
-Tetris Summary of what we plan to do: Timothy and I have chosen to do work with 2D primitives and make a Tetris game in QT. To summarize, a Tetris game is a tile-matching video game where you get points if you fill up a row with all tiles that a user randomly gets of a different shape. The game is over when tiles are stacked up to the top of the screen. 
+Tetris Summary of what we plan to do: Our group has chosen to do work with 2D primitives and make a Tetris game in QT. To summarize, a Tetris game is a tile-matching video game where you get points if you fill up a row with all tiles that a user randomly gets of a different shape. The game is over when tiles are stacked up to the top of the screen. 
 
 We plan to add many features such as our unique game sounds, control the tile movement with both mouse and keyboard, and a unique scoring system where users get more points/points multiplier if they fill up multiple rows simultaneously. There will also be various game modes. For example, we will implement a game mode where the game randomly places a unique tile on the "map", and the player's goal is to recover from the mess and keep the game going as long as they can while earning points. 
 
@@ -18,6 +18,6 @@ Our rough model for the game:Cancel changes:
 **Team member roles:**<br/>
 -Aayush Koirala:<br/>
 -Timothy Ha:<br/>
--Elaine Huang:test<br/>
+-Elaine Huang:<br/>
 
 
