@@ -1,9 +1,9 @@
 # qt-tetris
 imagine playing tetris
 
-CSE 165: Project Proposal<br/>
-Team Members: Aayush Koirala, Timothy Ha, and Elaine Huang<br/>
-Game: Tetris<br/>
+**CSE 165: Project Proposal**<br/>
+**Team Members**: Aayush Koirala, Timothy Ha, and Elaine Huang<br/>
+**Game: Tetris**<br/>
 
 Summary of what we plan to do: <br/>
 
@@ -16,7 +16,7 @@ These features are just the bare minimum while making the game, and we believe t
 Our rough model for the game:Cancel changes
 ![render](https://i.imgur.com/hO2WZV1.png)
 
-Team member roles:<br/>
+**Team member roles:**<br/>
 Aayush Koirala:<br/>
 Timothy Ha:<br/>
 Elaine Huang:<br/>
