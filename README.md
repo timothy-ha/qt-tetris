@@ -1,11 +1,11 @@
 # qt-tetris
 imagine playing tetris
 
-CSE 165: Project Proposal 
-Team Members: Aayush Koirala, Timothy Ha, and Elaine Huang
-Game: Tetris
+CSE 165: Project Proposal<br/>
+Team Members: Aayush Koirala, Timothy Ha, and Elaine Huang<br/>
+Game: Tetris<br/>
 
-Summary of what we plan to do: 
+Summary of what we plan to do: <br/>
 
 Tetris Summary of what we plan to do: Timothy and I have chosen to do work with 2D primitives and make a Tetris game in QT. To summarize, a Tetris game is a tile-matching video game where you get points if you fill up a row with all tiles that a user randomly gets of a different shape. The game is over when tiles are stacked up to the top of the screen. 
 
@@ -13,12 +13,12 @@ We plan to add many features such as our unique game sounds, control the tile mo
 
 These features are just the bare minimum while making the game, and we believe that we will add a lot more features as new ideas come to our mind. We plan to work together by using GitHub. 
 
-Our rough model for the game:
+Our rough model for the game:Cancel changes
 ![render](https://i.imgur.com/hO2WZV1.png)
 
-Team member roles:
-Aayush Koirala:
-Timothy Ha:
-Elaine Huang:
+Team member roles:<br/>
+Aayush Koirala:<br/>
+Timothy Ha:<br/>
+Elaine Huang:<br/>
 
 
