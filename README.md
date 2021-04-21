@@ -16,8 +16,8 @@ Our rough model for the game:Cancel changes
 ![render](https://i.imgur.com/hO2WZV1.png)
 
 **Team member roles:**<br/>
-Aayush Koirala:<br/>
-Timothy Ha:<br/>
-Elaine Huang:<br/>
+-Aayush Koirala:<br/>
+-Timothy Ha:<br/>
+-Elaine Huang:<br/>
 
 
