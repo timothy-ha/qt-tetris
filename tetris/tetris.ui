@@ -6,15 +6,88 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1075</width>
+    <height>979</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Tetris</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QOpenGLWidget" name="openGLWidget">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>10</y>
+      <width>501</width>
+      <height>921</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="TIME" native="true">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>730</y>
+      <width>161</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="SCORE" native="true">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>510</y>
+      <width>161</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QOpenGLWidget" name="HOLD">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>10</y>
+      <width>191</width>
+      <height>171</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QOpenGLWidget" name="NEXT">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>10</y>
+      <width>191</width>
+      <height>421</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>800</y>
+      <width>181</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>EXIT</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1075</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
