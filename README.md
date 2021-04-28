@@ -11,12 +11,14 @@ We plan to add many features such as our unique game sounds, control the tile mo
 
 These features are just the bare minimum while making the game, and we believe that we will add a lot more features as new ideas come to our mind. We plan to work together by using GitHub.
 
-Our rough model for the game:
-![render](https://i.imgur.com/hO2WZV1.png)
-
 **Team member roles:**<br/>
 -**Timothy Ha:** Timothy will work on dealing with tile collision, calculation of scores & times, and implementation of textures for each tiles within the game.<br/>
 
 -**Aayush Koirala**: Aayush will deal with implementation of mouse and keyboard inputs. Aayush will also work on implementation of unique game sounds and hold section for the tiles in the game.<br/>
 
 -**Elaine Huang:** Elaine will work on adding new game mode such as where the game randomly places a unique tile on the "map". Elaine will also work on incoming tile selection, beautifying the game window, and extensive game testing to make sure bugs are reported to other members and fixed as well.<br/>
+
+Our rough model for the game:
+![render](https://i.imgur.com/hO2WZV1.png)
+
+
