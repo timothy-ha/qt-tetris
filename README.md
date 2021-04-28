@@ -1,11 +1,10 @@
 # qt-tetris
 
 <p align="center">
-<b>CSE 165: Project Proposal<b>
+<b>CSE 165: Project Proposal || Game: Tetris<b>
 </p>
 
 **Team Members**: Aayush Koirala, Timothy Ha, and Elaine Huang<br/>
-**Game: Tetris**<br/>
 
 **Summary of what we plan to do:** <br/>
 Tetris Summary of what we plan to do: Our group has chosen to do work with 2D primitives and make a Tetris game in QT. To summarize, a Tetris game is a tile-matching video game where you get points if you fill up a row with all tiles that a user randomly gets of a different shape. The game is over when tiles are stacked up to the top of the screen. 
