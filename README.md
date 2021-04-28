@@ -12,7 +12,7 @@ We plan to add many features such as our unique game sounds, control the tile mo
 These features are just the bare minimum while making the game, and we believe that we will add a lot more features as new ideas come to our mind. We plan to work together by using GitHub.
 
 **Team member roles:**<br/>
--**Timothy Ha:** Timothy will work on dealing with tile collision, calculation of scores & times, and implementation of textures for each tiles within the game.<br/>
+-**Timothy Ha:** Timothy will work on dealing with tile collision, calculation of scores (points multiplier as well) & game time, and implementation of unique textures for each tiles within the game.<br/>
 
 -**Aayush Koirala**: Aayush will deal with implementation of mouse and keyboard inputs. Aayush will also work on implementation of unique game sounds and hold section for the tiles in the game.<br/>
 
