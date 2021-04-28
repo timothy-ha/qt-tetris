@@ -11,7 +11,7 @@ We plan to add many features such as our unique game sounds, control the tile mo
 
 These features are just the bare minimum while making the game, and we believe that we will add a lot more features as new ideas come to our mind. We plan to work together by using GitHub.
 
-Our rough model for the game:Cancel changes:
+Our rough model for the game:
 ![render](https://i.imgur.com/hO2WZV1.png)
 
 **Team member roles:**<br/>
