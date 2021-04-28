@@ -1,7 +1,7 @@
 # qt-tetris
 
 <p align="center">
-CSE 165: Project Proposal<br/>
+<b>CSE 165: Project Proposal<b>
 </p>
 
 **Team Members**: Aayush Koirala, Timothy Ha, and Elaine Huang<br/>
