@@ -18,5 +18,7 @@ Our rough model for the game:Cancel changes:
 **Team member roles:**<br/>
 
 -Timothy Ha: Timothy will work on dealing with tile collision, calculation of scores, and implementing textures of each tiles within the game.<br/>
+
 -Aayush Koirala: Aayush will deal with implement mouse and keyboard inputs. Aayush will also work on implementing unique game sounds and hold section for the  tile in the game.<br/>
+
 -Elaine Huang: Elaine will work on adding new game mode such as where the game randomly places a unique tile on the "map". Elaine will also work on incoming tile selection and game testing to make sure bugs are reported to other members and fixed as well.<br/>
