@@ -48,14 +48,38 @@
 **
 ****************************************************************************/
 
-#include "tetrixwindow.h"
+#ifndef TETRIXWINDOW_H
+#define TETRIXWINDOW_H
 
-#include <QApplication>
+#include <QWidget>
 
-int main(int argc, char *argv[])
+QT_BEGIN_NAMESPACE
+class QLCDNumber;
+class QLabel;
+class QPushButton;
+QT_END_NAMESPACE
+class TetrixBoard;
+
+//! [0]
+class TetrixWindow : public QWidget
 {
-    QApplication app(argc, argv);
-    TetrixWindow window;
-    window.show();
-    return app.exec();
-}
+    Q_OBJECT
+
+public:
+    TetrixWindow(QWidget *parent = nullptr);
+
+private:
+    QLabel *createLabel(const QString &text);
+
+    TetrixBoard *board;
+    QLabel *nextPieceLabel;
+    QLCDNumber *scoreLcd;
+    QLCDNumber *levelLcd;
+    QLCDNumber *linesLcd;
+    QPushButton *startButton;
+    QPushButton *quitButton;
+    QPushButton *pauseButton;
+};
+//! [0]
+
+#endif
