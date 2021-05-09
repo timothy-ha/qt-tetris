@@ -39,12 +39,12 @@ These features are just the bare minimum while making the game, and we believe t
 | -------- | ------ |
 | enter    | start  |
 | esc      | stop    |
-| z        | rotate lef   |
+| z        | rotate left   |
 | x        | rotate right |
 | j   | move left    |
 | l   | move right   |
 | k   | drop         |
-| space   | hard drop        |
+| space   | hard drop  |
 
 
 **Our rough model for the game:**
