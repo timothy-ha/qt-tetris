@@ -35,14 +35,17 @@ These features are just the bare minimum while making the game, and we believe t
 * Cleanup
 
 **Controls**
-enter = start
-esc = stop
-z = rotate left
-x = rotate right
-j = move left
-l = move right
-k = drop
-space = hard drop
+| Key      | Action |
+| -------- | ------ |
+| enter    | start  |
+| esc      | stop    |
+| z        | rotate lef   |
+| x        | rotate right |
+| j   | move left    |
+| l   | move right   |
+| k   | drop         |
+| space   | hard drop        |
+
 
 **Our rough model for the game:**
 ![render](https://i.imgur.com/hO2WZV1.png)
