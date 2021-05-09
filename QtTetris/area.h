@@ -25,9 +25,8 @@ public:
 
     ~AREA();
 private:
-
-  QString src[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
-   void reduce(int y = 0);
+    QString src[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
+    void reduce(int y = 0);
 signals:
 
 public slots:
