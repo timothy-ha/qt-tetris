@@ -18,9 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     area = new AREA(this);
 
-    for (int i = 0; i < 5; i++) {
-        generatePiece( (i == 0) ? true : false );
-    }
+    prepareBlocks();
 
     updateNext();
 
@@ -41,7 +39,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch (gamemod) {
     case start:
-        if (event->key() == Qt::Key_Escape) {gameLose(); if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum()); gameReady(); return;}
+        if (event->key() == Qt::Key_Escape) {
+            gameLose();
+
+            gameReady();
+
+            return;
+        }
         if (event->key() == Qt::Key_Z){
             // rotate first
             tile->rotate();
@@ -102,8 +106,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
+void MainWindow::prepareBlocks() {
+    seven_bag.clear();
+    piece.clear();
+    for (int i = 0; i < 5; i++) {
+        generatePiece();
+    }
+}
+
 void MainWindow::createBlock(){
-    ahh = 0;
     Number->level = 0;
     thesholdscore = 1000;
     // reset area map
@@ -142,17 +153,16 @@ void MainWindow::changeBlock(){
     updateNext();
 }
 
-void MainWindow::generatePiece(bool first) {
-    if (first) {
-        int a = QRandomGenerator64::global()->bounded(1, 8);
-        piece.push_back(a);
-    }
-
-    if (seven_bag.size() == 0) {
-        for (int i = 0; i < 7; i++) {
-            seven_bag.push_back(QRandomGenerator64::global()->bounded(1, 8));
+void MainWindow::generatePiece() {
+    if (seven_bag.empty()) {
+        for (int i = 1; i <= 7; i++) {
+            seven_bag.push_back(i);
         }
     }
+    int i = QRandomGenerator64::global()->bounded(0, seven_bag.size());
+    //qDebug() << i;
+    piece.push_back(seven_bag.at(i));
+    seven_bag.erase(seven_bag.begin() + i);
 }
 
 void MainWindow::updateNext() {
@@ -236,6 +246,14 @@ void MainWindow::gameReady()
 
 void MainWindow::gameLose()
 {
+    if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
+    prepareBlocks();
+    tile->change(piece.at(0));
+    updateNext();
+    piece.pop_front();
+
+    generatePiece();
+
     gamemod=lose;
     tileTimer->stop();
 
@@ -251,6 +269,7 @@ void MainWindow::gamePause()
 void MainWindow::gameStart()
 {
     gamemod=start;
+    updateNext();
     tileTimer->start(tiletime);
 }
 

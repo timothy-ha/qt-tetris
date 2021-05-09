@@ -33,7 +33,8 @@ protected:
 private slots:
     void updateNext();
     void updateScores();
-    void generatePiece(bool first = false);
+    void prepareBlocks();
+    void generatePiece();
     void blockAction();
     void scoreCheck();
 
@@ -41,7 +42,6 @@ private:
     Ui::MainWindow* ui;
     int win_width;
     int win_height;
-    int ahh = 0;
     QVector<int> piece;
     QVector<int> seven_bag;
     void gameLose();
