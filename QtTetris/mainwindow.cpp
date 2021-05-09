@@ -16,10 +16,6 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //win_width = (NUM_X+PADDING)*WIDTH;
-    //win_height = NUM_Y*WIDTH;
-    //this->setFixedSize(win_width, win_height);
-    //qsrand(time(NULL));
 
     area = new AREA(this);
 
