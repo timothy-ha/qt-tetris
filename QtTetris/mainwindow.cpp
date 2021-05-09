@@ -51,8 +51,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             tile->rotate();
             int prefix = tile->getPrefix();
             // if at left boundary shift back
-            if (tile->pos().x() < (-prefix)*WIDTH)
-                tile->move((-prefix)*WIDTH, tile->pos().y());
+            if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
 
 
             tile->update();
@@ -63,8 +62,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             tile->rotate_inv();
             int prefix = tile->getPrefix();
             // if at left boundary shift back
-            if (tile->pos().x() < (-prefix)*WIDTH)
-                tile->move((-prefix)*WIDTH, tile->pos().y());
+            if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
 
             tile->update();
         }
@@ -81,7 +79,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             int res = collide(1,0);
             if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
         }
-        if (event->key() == Qt::Key_Enter) gamePause();
+        if (event->key() == Qt::Key_P) gamePause();
         if (event->key() == Qt::Key_Space) {
             int res = collide(0,1);
             while (res != 1) {
@@ -123,7 +121,7 @@ void MainWindow::createBlock(){
     area->update();
     updateScores();
     tileTimer = new QTimer(this);
-    tiletime = 250;
+    tiletime = 500;
     tile->move(2*WIDTH,-4*WIDTH);
     QSignalMapper* signalMapper = new QSignalMapper (this) ;
     connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
