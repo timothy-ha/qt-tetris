@@ -49,7 +49,6 @@
 ****************************************************************************/
 
 #include "tetrixwindow.h"
-
 #include <QApplication>
 
 int main(int argc, char *argv[])

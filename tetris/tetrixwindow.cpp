@@ -67,7 +67,7 @@ TetrixWindow::TetrixWindow(QWidget *parent)
     nextPieceLabel->setAlignment(Qt::AlignCenter);
     board->setNextPieceLabel(nextPieceLabel);
 //! [1]
-    scoreLcd = new QLCDNumber(5);
+    scoreLcd = new QLCDNumber(2);
     scoreLcd->setSegmentStyle(QLCDNumber::Filled);
 //! [1]
     levelLcd = new QLCDNumber(2);
