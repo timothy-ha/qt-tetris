@@ -21,6 +21,19 @@ These features are just the bare minimum while making the game, and we believe t
 
 -**Elaine Huang:** Elaine will work on adding new game mode such as where the game randomly places a unique tile on the "map". Elaine will also work on incoming tile selection, beautifying the game window, and extensive game testing to make sure bugs are reported to other members and fixed as well.<br/>
 
+**To-Do**
+* ~~Textures
+* ~~Next
+* ~~Score
+* ~~High Score
+* ~~Randomizer
+* ~~Stylesheet
+* ~~Controls
+* Music
+* Hold
+* Time
+* Cleanup
+
 **Our rough model for the game:**
 ![render](https://i.imgur.com/hO2WZV1.png)
 
