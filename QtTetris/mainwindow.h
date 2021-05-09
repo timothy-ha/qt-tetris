@@ -25,7 +25,6 @@ public:
 protected:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
-    void mousePressEvent(QMouseEvent *event);
 
 private slots:
     void blockAction(int i2 = 0);

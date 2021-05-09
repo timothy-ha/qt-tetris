@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFixedSize(win_width, win_height);
     qsrand(time(NULL));
     area = new AREA(this);
-    int init_block = (qrand() % 7) + 1;
+    int init_block = 1 + (int) (7.0 * (rand() / (RAND_MAX + 1.0)));
     tile = new TILE(this, init_block);
     Number = new number(this);
     gameRedy();
@@ -32,7 +32,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     switch (gamemod) {
     case start:
         if (event->key() == Qt::Key_Escape) {gameLose(); gameRedy(); return;}
-        if (event->key() == Qt::Key_W){
+        if (event->key() == Qt::Key_Z){
             // rotate first
             tile->rotate();
             QPoint original = tile->pos();
@@ -48,28 +48,39 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
             tile->update();
         }
-        if (event->key() == Qt::Key_S)
-            blockAction(1); // (block, down) = (0, 1)
-        if (event->key() == Qt::Key_A){
+
+        if (event->key() == Qt::Key_X){
+            // rotate first
+            tile->rotate_inv();
+            QPoint original = tile->pos();
+            int prefix = tile->getPrefix();
+            // if at left boundary shift back
+            if (tile->pos().x() < (-prefix)*WIDTH)
+                tile->move((-prefix)*WIDTH, tile->pos().y());
+            // if collide someone rotate and move bcak
+            if (collide(0,0,0)) {
+                tile->rotate();
+                tile->move(original);
+            }
+
+            tile->update();
+        }
+
+        if (event->key() == Qt::Key_J){
             int res = collide(0,-1,0);
             if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
             else if (res == 2) pushBlock(0, 1, -1, 0);
         }
-        if (event->key() == Qt::Key_D){
+
+        if (event->key() == Qt::Key_K)
+            blockAction(1); // (block, down) = (0, 1)
+
+        if (event->key() == Qt::Key_L){
             int res = collide(0,1,0);
             if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
             else if (res == 2) pushBlock(0, 1, 1, 0);
         }
         if (event->key() == Qt::Key_Enter) gamePause();
-        if (event->key() == Qt::Key_E) {
-            int res = collide(0,0,1);
-            while (res != 1) {
-                if (!res) blockAction(1);
-                else pushBlock(0, 1, 0, 1);
-                res = collide(0,0,1);
-                //cout << res << endl;
-            }
-        }
         if (event->key() == Qt::Key_Space) {
             int res = collide(1,0,1);
             while (res != 1) {
@@ -86,25 +97,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     case redy:
         if (event->key() == Qt::Key_Escape) close();
         else gameStart();
-        break;
-    default:
-        gameStart();
-        break;
-    }
-
-}
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    switch (gamemod) {
-    case start:
-        gamePause();
-        break;
-    case lose:
-        gameRedy();
-        break;
-    case redy:
-        gameStart();
         break;
     default:
         gameStart();
