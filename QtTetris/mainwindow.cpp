@@ -60,7 +60,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
             else if (res == 2) pushBlock(0, 1, 1, 0);
         }
-        if (event->key() == Qt::Key_Space) gamePause();
+        if (event->key() == Qt::Key_Enter) gamePause();
         if (event->key() == Qt::Key_E) {
             int res = collide(0,0,1);
             while (res != 1) {
@@ -70,7 +70,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 //cout << res << endl;
             }
         }
-        if (event->key() == Qt::Key_0) {
+        if (event->key() == Qt::Key_Space) {
             int res = collide(1,0,1);
             while (res != 1) {
                 if (!res) blockAction(3);
