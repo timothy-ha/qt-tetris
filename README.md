@@ -37,7 +37,7 @@ These features are just the bare minimum while making the game, and we believe t
 **Controls**
 | Key      | Action |
 | -------- | ------ |
-| enter    | start  |
+| any key  | start  |
 | esc      | stop    |
 | z        | rotate left   |
 | x        | rotate right |
@@ -45,6 +45,7 @@ These features are just the bare minimum while making the game, and we believe t
 | l   | move right   |
 | k   | drop         |
 | space   | hard drop  |
+| p | pause |
 
 
 **Our rough model for the game:**
