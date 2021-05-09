@@ -1,4 +1,3 @@
-
 #include "ui_mainwindow.h"
 #include "mainwindow.h"
 #include <ctime>
@@ -20,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     area = new AREA(this);
 
     for (int i = 0; i < 5; i++) {
-        generatePiece();
+        generatePiece( (i == 0) ? true : false );
     }
 
     updateNext();
@@ -143,9 +142,17 @@ void MainWindow::changeBlock(){
     updateNext();
 }
 
-void MainWindow::generatePiece() {  
-    int a = QRandomGenerator64::global()->bounded(1, 8);
-    piece.push_back(a);
+void MainWindow::generatePiece(bool first) {
+    if (first) {
+        int a = QRandomGenerator64::global()->bounded(1, 8);
+        piece.push_back(a);
+    }
+
+    if (seven_bag.size() == 0) {
+        for (int i = 0; i < 7; i++) {
+            seven_bag.push_back(QRandomGenerator64::global()->bounded(1, 8));
+        }
+    }
 }
 
 void MainWindow::updateNext() {
