@@ -6,13 +6,11 @@
 #include <QMouseEvent>
 #include <QVector>
 #include <tile.h>
-#include <AREA.h>
+#include <area.h>
 #include "number.h"
 #define WIDTH 30
 #define NUM_X 10
 #define NUM_Y 20
-#define X_SPACE (NUM_X + 3 + 1)
-#define Y_SPACE (NUM_Y + 4 + 1)
 #define PADDING 5
 
 namespace Ui {
@@ -36,7 +34,7 @@ private slots:
     void updateNext();
     void updateScores();
     void generatePiece();
-    void blockAction(int i2 = 0);
+    void blockAction();
     void scoreCheck();
 
 private:
@@ -61,7 +59,7 @@ private:
     TILE *tile;
 
     void createBlock();
-    void changeBlock(int i = 0);
+    void changeBlock();
     QTimer *tileTimer;
     int tiletime;
     int collide(int dx, int dy);

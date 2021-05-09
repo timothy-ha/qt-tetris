@@ -1,4 +1,5 @@
 #include "tile.h"
+#include <QDebug>
 #include <iostream>
 using namespace std;
 int WIDTH = 30;

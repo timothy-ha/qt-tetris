@@ -50,7 +50,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if (event->key() == Qt::Key_Z){
             // rotate first
             tile->rotate();
-            QPoint original = tile->pos();
             int prefix = tile->getPrefix();
             // if at left boundary shift back
             if (tile->pos().x() < (-prefix)*WIDTH)
@@ -63,7 +62,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if (event->key() == Qt::Key_X){
             // rotate first
             tile->rotate_inv();
-            QPoint original = tile->pos();
             int prefix = tile->getPrefix();
             // if at left boundary shift back
             if (tile->pos().x() < (-prefix)*WIDTH)
@@ -78,7 +76,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
         if (event->key() == Qt::Key_K)
-            blockAction(1); // (block, down) = (0, 1)
+            blockAction(); // (block, down) = (0, 1)
 
         if (event->key() == Qt::Key_L){
             int res = collide(1,0);
@@ -88,7 +86,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if (event->key() == Qt::Key_Space) {
             int res = collide(0,1);
             while (res != 1) {
-                if (!res) blockAction(3);
+                if (!res) blockAction();
                 res = collide(0,1);
             }
         }
@@ -124,7 +122,7 @@ void MainWindow::createBlock(){
     QSignalMapper* signalMapper = new QSignalMapper (this) ;
     connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
     signalMapper->setMapping(tileTimer, 0 << 1);
-    connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(blockAction(int)));
+    connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(blockAction()));
     connect(tileTimer, SIGNAL(timeout()), this, SLOT(scoreCheck()));
 }
 
@@ -138,7 +136,8 @@ void MainWindow::scoreCheck(){
     }
 }
 
-void MainWindow::changeBlock(int i){
+void MainWindow::changeBlock(){
+    tile->rot = 0;
     tile->change(piece.at(0));
     piece.pop_front();
     generatePiece();
@@ -151,24 +150,6 @@ void MainWindow::changeBlock(int i){
 void MainWindow::generatePiece() {  
     int a = QRandomGenerator64::global()->bounded(1, 8);
     piece.push_back(a);
-
-    /*
-    while (true) {
-        //int a = QRandomGenerator64::global()->bounded(1, 8);
-        int a = 0;
-        if (ahh > 1) {
-            if (a != piece.last()) {
-                piece.push_back(a);
-                break;
-            }
-        }
-        else {
-            piece.push_back(a);
-            ahh++;
-            break;
-        }
-    } */
-
 }
 
 void MainWindow::updateNext() {
@@ -193,8 +174,6 @@ void MainWindow::updateNext() {
     QPixmap e(next_src[piece.at(4)]);
     ui->next_4->setPixmap(e);
     ui->next_4->setAlignment(Qt::AlignCenter);
-
-    qDebug() << "hi im doing something";
 }
 
 void MainWindow::updateScores() {
@@ -213,9 +192,7 @@ int MainWindow::collide(int dx, int dy){
     return (blksp & areasp) ? 1: 0;
 }
 
-void MainWindow::blockAction(int i2){
-    int i = i2 >> 1;
-    //qDebug() << i;
+void MainWindow::blockAction(){
     // lose
     for (int k = 3; k < X_SPACE-1; k++) if (area->map[k][3]) {
         if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
@@ -242,7 +219,7 @@ void MainWindow::blockAction(int i2){
         }
         area->update();
         // change the block back to top
-        changeBlock(i);
+        changeBlock();
     }
     else tile->move(tile->pos().x(), tile->pos().y() + WIDTH);
 }
