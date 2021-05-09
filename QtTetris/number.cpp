@@ -16,5 +16,5 @@ number::~number()
 
 void number::paintEvent(QPaintEvent *)
 {
-  qDebug() << num;
+  //qDebug() << num;
 }

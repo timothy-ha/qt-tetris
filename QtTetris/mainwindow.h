@@ -14,6 +14,10 @@
 #define Y_SPACE (NUM_Y + 4 + 1)
 #define PADDING 5
 
+namespace Ui {
+class MainWindow;
+}
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -23,14 +27,16 @@ public:
     ~MainWindow();
 
 protected:
-    void paintEvent(QPaintEvent *);
+    //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
     void blockAction(int i2 = 0);
     void scoreCheck();
+    void on_pushButton_released();
 
 private:
+    Ui::MainWindow* ui;
     int win_width;
     int win_height;
     void gameLose();
@@ -52,8 +58,7 @@ private:
     void changeBlock(int i = 0);
     QTimer *tileTimer;
     int tiletime;
-    int collide(int i, int dx, int dy);
-    void pushBlock(int pusher, int pushee, int x, int y);
+    int collide(int dx, int dy);
 
     AREA *area;
     number *Number;
