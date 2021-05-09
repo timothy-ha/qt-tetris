@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <QMouseEvent>
+#include <QVector>
 #include <tile.h>
 #include <AREA.h>
 #include "number.h"
@@ -31,17 +32,18 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
+    void generatePiece();
     void blockAction(int i2 = 0);
     void scoreCheck();
-    void on_pushButton_released();
 
 private:
     Ui::MainWindow* ui;
     int win_width;
     int win_height;
+    QVector<int> piece;
     void gameLose();
     void gameStart();
-    void gameRedy();
+    void gameReady();
     void gamePause();
     enum
     {

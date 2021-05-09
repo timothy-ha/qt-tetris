@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QSignalMapper>
-#include <QRandomGenerator>
+#include <QRandomGenerator64>
 #include <QMessageBox>
 #include <iostream>
 #define SMALLEST_TIME 150
@@ -21,13 +21,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //this->setFixedSize(win_width, win_height);
     //qsrand(time(NULL));
 
-    uniform_real_distribution<double> distribution(1.0, 7.0);
-    int init_block = (int) distribution(*QRandomGenerator::global());
-
     area = new AREA(this);
-    tile = new TILE(this, init_block);
+
+    for (int i = 0; i < 7; i++) {
+        generatePiece();
+    }
+
+    tile = new TILE(this, piece.at(0));
+    piece.pop_front();
+    generatePiece();
+
     Number = new number(this);
-    gameRedy();
+    gameReady();
 }
 
 MainWindow::~MainWindow()
@@ -39,7 +44,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch (gamemod) {
     case start:
-        if (event->key() == Qt::Key_Escape) {gameLose(); gameRedy(); return;}
+        if (event->key() == Qt::Key_Escape) {gameLose(); gameReady(); return;}
         if (event->key() == Qt::Key_Z){
             // rotate first
             tile->rotate();
@@ -87,7 +92,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
         break;
     case lose:
-        gameRedy();
+        gameReady();
         break;
     case redy:
         if (event->key() == Qt::Key_Escape) close();
@@ -100,19 +105,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
-/*
-void MainWindow::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    QPixmap bgImg[2];
-    bgImg[0].load(":/Image/grid4.png");
-    bgImg[1].load(":/Image/grid5.png");
-    painter.setOpacity(0.8);
-    for (int i = 0; i < NUM_X; i++)
-        for (int j = 0; j < NUM_Y; j++)
-            painter.drawPixmap(i*WIDTH, j*WIDTH, WIDTH, WIDTH, bgImg[(i+j)%2]);
-} */
-
 void MainWindow::createBlock(){
     Number->level = 0;
     thesholdscore = 1000;
@@ -123,7 +115,6 @@ void MainWindow::createBlock(){
 
     tileTimer = new QTimer(this);
     tiletime = 250;
-    //tile->move((0*NUM_X/2+qrand()%(NUM_X/2-4+1))*WIDTH, -4*WIDTH);
     tile->move(2*WIDTH,-4*WIDTH);
     QSignalMapper* signalMapper = new QSignalMapper (this) ;
     connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
@@ -143,17 +134,23 @@ void MainWindow::scoreCheck(){
 }
 
 void MainWindow::changeBlock(int i){
-    //int new_block = (qrand() % 7) + 1;
+    //int new_block = QRandomGenerator64::global()->bounded(1, 7);
+    tile->change(piece.at(0));
+    piece.pop_front();
+    generatePiece();
+    int amount = QRandomGenerator64::global()->bounded(2, 4);
+    tile->move(amount*WIDTH,-4*WIDTH);
 
-    //QRandomGenerator gen;
-    uniform_real_distribution<double> distribution(1.0, 7.0);
-    int new_block = (int) distribution(*QRandomGenerator::global());
-    tile->change(new_block);
-    //tile->move((i*NUM_X/2+qrand()%(NUM_X/2-4+1))*WIDTH, -4*WIDTH);
-    tile->move(2*WIDTH,-4*WIDTH);
+    QPixmap pm(":/Image/1.png");
+    ui->next_0->setPixmap(pm);
+    ui->next_0->setScaledContents(true);
+
 }
 
-
+void MainWindow::generatePiece() {
+    int a = QRandomGenerator64::global()->bounded(1, 7);
+    piece.push_back(a);
+}
 
 
 int MainWindow::collide(int dx, int dy){
@@ -200,7 +197,7 @@ void MainWindow::blockAction(int i2){
     else tile->move(tile->pos().x(), tile->pos().y() + WIDTH);
 }
 
-void MainWindow::gameRedy()
+void MainWindow::gameReady()
 {
     gamemod=redy;
     createBlock();
@@ -227,7 +224,3 @@ void MainWindow::gameStart()
     tileTimer->start(tiletime);
 }
 
-void MainWindow::on_pushButton_released()
-{
-
-}
