@@ -23,9 +23,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     area = new AREA(this);
 
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 5; i++) {
         generatePiece();
     }
+
+    updateNext();
 
     tile = new TILE(this, piece.at(0));
     piece.pop_front();
@@ -44,7 +46,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch (gamemod) {
     case start:
-        if (event->key() == Qt::Key_Escape) {gameLose(); gameReady(); return;}
+        if (event->key() == Qt::Key_Escape) {gameLose(); if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum()); gameReady(); return;}
         if (event->key() == Qt::Key_Z){
             // rotate first
             tile->rotate();
@@ -95,7 +97,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         gameReady();
         break;
     case redy:
-        if (event->key() == Qt::Key_Escape) close();
+        if (event->key() == Qt::Key_Escape) {
+            close();
+        }
         else gameStart();
         break;
     default:
@@ -106,13 +110,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 }
 
 void MainWindow::createBlock(){
+    ahh = 0;
     Number->level = 0;
     thesholdscore = 1000;
     // reset area map
     Number->setnum(0);
     area->clean();
     area->update();
-
+    updateScores();
     tileTimer = new QTimer(this);
     tiletime = 250;
     tile->move(2*WIDTH,-4*WIDTH);
@@ -134,22 +139,67 @@ void MainWindow::scoreCheck(){
 }
 
 void MainWindow::changeBlock(int i){
-    //int new_block = QRandomGenerator64::global()->bounded(1, 7);
     tile->change(piece.at(0));
     piece.pop_front();
     generatePiece();
     int amount = QRandomGenerator64::global()->bounded(2, 4);
     tile->move(amount*WIDTH,-4*WIDTH);
+    updateScores();
+    updateNext();
+}
 
-    QPixmap pm(":/Image/1.png");
-    ui->next_0->setPixmap(pm);
-    ui->next_0->setScaledContents(true);
+void MainWindow::generatePiece() {  
+    int a = QRandomGenerator64::global()->bounded(1, 8);
+    piece.push_back(a);
+
+    /*
+    while (true) {
+        //int a = QRandomGenerator64::global()->bounded(1, 8);
+        int a = 0;
+        if (ahh > 1) {
+            if (a != piece.last()) {
+                piece.push_back(a);
+                break;
+            }
+        }
+        else {
+            piece.push_back(a);
+            ahh++;
+            break;
+        }
+    } */
 
 }
 
-void MainWindow::generatePiece() {
-    int a = QRandomGenerator64::global()->bounded(1, 7);
-    piece.push_back(a);
+void MainWindow::updateNext() {
+    ui->label_next->setAlignment(Qt::AlignCenter);
+
+    QPixmap a(next_src[piece.at(0)]);
+    ui->next_0->setPixmap(a);
+    ui->next_0->setAlignment(Qt::AlignCenter);
+
+    QPixmap b(next_src[piece.at(1)]);
+    ui->next_1->setPixmap(b);
+    ui->next_1->setAlignment(Qt::AlignCenter);
+
+    QPixmap c(next_src[piece.at(2)]);
+    ui->next_2->setPixmap(c);
+    ui->next_2->setAlignment(Qt::AlignCenter);
+
+    QPixmap d(next_src[piece.at(3)]);
+    ui->next_3->setPixmap(d);
+    ui->next_3->setAlignment(Qt::AlignCenter);
+
+    QPixmap e(next_src[piece.at(4)]);
+    ui->next_4->setPixmap(e);
+    ui->next_4->setAlignment(Qt::AlignCenter);
+
+    qDebug() << "hi im doing something";
+}
+
+void MainWindow::updateScores() {
+    ui->score->setText(QString::number(Number->getnum()));
+    ui->high_score->setText(QString::number(Number->getHighScore()));
 }
 
 

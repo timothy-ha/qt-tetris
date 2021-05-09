@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = 0);
+    QString next_src[8] = {"",":/Image/1a.png",":/Image/La.png" , ":/Image/Ja.png", ":/Image/Ta.png", ":/Image/Sa.png", ":/Image/Za.png", ":/Image/#a.png" };
     ~MainWindow();
 
 protected:
@@ -32,6 +33,8 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
+    void updateNext();
+    void updateScores();
     void generatePiece();
     void blockAction(int i2 = 0);
     void scoreCheck();
@@ -40,6 +43,7 @@ private:
     Ui::MainWindow* ui;
     int win_width;
     int win_height;
+    int ahh = 0;
     QVector<int> piece;
     void gameLose();
     void gameStart();
