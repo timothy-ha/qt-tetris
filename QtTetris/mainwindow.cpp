@@ -1,22 +1,30 @@
+
+#include "ui_mainwindow.h"
 #include "mainwindow.h"
 #include <ctime>
+#include <QDebug>
 #include <QPainter>
 #include <QPixmap>
 #include <QSignalMapper>
+#include <QRandomGenerator>
 #include <QMessageBox>
 #include <iostream>
 #define SMALLEST_TIME 150
 using namespace std;
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    win_width = (NUM_X+PADDING)*WIDTH;
-    win_height = NUM_Y*WIDTH;
-    this->setFixedSize(win_width, win_height);
-    qsrand(time(NULL));
+    ui->setupUi(this);
+    //win_width = (NUM_X+PADDING)*WIDTH;
+    //win_height = NUM_Y*WIDTH;
+    //this->setFixedSize(win_width, win_height);
+    //qsrand(time(NULL));
+
+    uniform_real_distribution<double> distribution(1.0, 7.0);
+    int init_block = (int) distribution(*QRandomGenerator::global());
+
     area = new AREA(this);
-    int init_block = 1 + (int) (7.0 * (rand() / (RAND_MAX + 1.0)));
     tile = new TILE(this, init_block);
     Number = new number(this);
     gameRedy();
@@ -24,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-
+    delete ui;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -40,11 +48,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             // if at left boundary shift back
             if (tile->pos().x() < (-prefix)*WIDTH)
                 tile->move((-prefix)*WIDTH, tile->pos().y());
-            // if collide someone rotate and move bcak
-            if (collide(0,0,0)) {
-                tile->rotate_inv();
-                tile->move(original);
-            }
+
 
             tile->update();
         }
@@ -57,37 +61,28 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             // if at left boundary shift back
             if (tile->pos().x() < (-prefix)*WIDTH)
                 tile->move((-prefix)*WIDTH, tile->pos().y());
-            // if collide someone rotate and move bcak
-            if (collide(0,0,0)) {
-                tile->rotate();
-                tile->move(original);
-            }
 
             tile->update();
         }
 
         if (event->key() == Qt::Key_J){
-            int res = collide(0,-1,0);
+            int res = collide(-1,0);
             if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
-            else if (res == 2) pushBlock(0, 1, -1, 0);
         }
 
         if (event->key() == Qt::Key_K)
             blockAction(1); // (block, down) = (0, 1)
 
         if (event->key() == Qt::Key_L){
-            int res = collide(0,1,0);
+            int res = collide(1,0);
             if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
-            else if (res == 2) pushBlock(0, 1, 1, 0);
         }
         if (event->key() == Qt::Key_Enter) gamePause();
         if (event->key() == Qt::Key_Space) {
-            int res = collide(1,0,1);
+            int res = collide(0,1);
             while (res != 1) {
                 if (!res) blockAction(3);
-                else pushBlock(1, 0, 0, 1);
-                res = collide(1,0,1);
-                //cout << res << endl;
+                res = collide(0,1);
             }
         }
         break;
@@ -105,7 +100,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
-
+/*
 void MainWindow::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -116,7 +111,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     for (int i = 0; i < NUM_X; i++)
         for (int j = 0; j < NUM_Y; j++)
             painter.drawPixmap(i*WIDTH, j*WIDTH, WIDTH, WIDTH, bgImg[(i+j)%2]);
-}
+} */
 
 void MainWindow::createBlock(){
     Number->level = 0;
@@ -127,8 +122,9 @@ void MainWindow::createBlock(){
     area->update();
 
     tileTimer = new QTimer(this);
-    tiletime = 500;
-    tile->move((0*NUM_X/2+qrand()%(NUM_X/2-4+1))*WIDTH, -4*WIDTH);
+    tiletime = 250;
+    //tile->move((0*NUM_X/2+qrand()%(NUM_X/2-4+1))*WIDTH, -4*WIDTH);
+    tile->move(2*WIDTH,-4*WIDTH);
     QSignalMapper* signalMapper = new QSignalMapper (this) ;
     connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
     signalMapper->setMapping(tileTimer, 0 << 1);
@@ -147,21 +143,20 @@ void MainWindow::scoreCheck(){
 }
 
 void MainWindow::changeBlock(int i){
-    int new_block = (qrand() % 7) + 1;
+    //int new_block = (qrand() % 7) + 1;
+
+    //QRandomGenerator gen;
+    uniform_real_distribution<double> distribution(1.0, 7.0);
+    int new_block = (int) distribution(*QRandomGenerator::global());
     tile->change(new_block);
-    tile->move((i*NUM_X/2+qrand()%(NUM_X/2-4+1))*WIDTH, -4*WIDTH);
-}
-
-void MainWindow::pushBlock(int pusher, int pushee, int x, int y){
-    if (collide(pushee, x, y) == 1) {blockAction(2*pushee+1); return;}
-    else {
-        tile->move(tile->pos().x() + x*WIDTH, tile->pos().y() + y*WIDTH);
-        tile->move(tile->pos().x() + x*WIDTH, tile->pos().y() + y*WIDTH);
-    }
+    //tile->move((i*NUM_X/2+qrand()%(NUM_X/2-4+1))*WIDTH, -4*WIDTH);
+    tile->move(2*WIDTH,-4*WIDTH);
 }
 
 
-int MainWindow::collide(int i, int dx, int dy){
+
+
+int MainWindow::collide(int dx, int dy){
     // block1 and area
     int x, y;
     x = tile->pos().x()/WIDTH + 3 + dx;
@@ -173,6 +168,7 @@ int MainWindow::collide(int i, int dx, int dy){
 
 void MainWindow::blockAction(int i2){
     int i = i2 >> 1;
+    //qDebug() << i;
     // lose
     for (int k = 3; k < X_SPACE-1; k++) if (area->map[k][3]) {
         if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
@@ -180,7 +176,7 @@ void MainWindow::blockAction(int i2){
         return;
     }
     // touch bottom
-    if (collide(i,0,1) == 1){
+    if (collide(0,1) == 1){
         int x, y, blksp = tile->getBlockSp();
         x = tile->pos().x()/WIDTH + 3;
         y = tile->pos().y()/WIDTH + 4;
@@ -229,4 +225,9 @@ void MainWindow::gameStart()
 {
     gamemod=start;
     tileTimer->start(tiletime);
+}
+
+void MainWindow::on_pushButton_released()
+{
+
 }
