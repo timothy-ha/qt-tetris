@@ -28,7 +28,7 @@ These features are just the bare minimum while making the game, and we believe t
 * ~~High Score~~
 * ~~Stylesheet~~
 * ~~Controls~~
-* Tetris Bag Style Randomizer
+* ~~7-bag Randomizer~~
 * Music
 * Hold
 * Time
