@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
+    <width>445</width>
     <height>600</height>
    </rect>
   </property>
@@ -47,22 +47,17 @@
   <widget class="QLabel" name="label_next">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>330</x>
      <y>30</y>
      <width>81</width>
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Corbel</family>
-     <pointsize>16</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
    </property>
    <property name="text">
     <string>Next</string>
@@ -71,7 +66,7 @@
   <widget class="QLabel" name="next_0">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>330</x>
      <y>70</y>
      <width>80</width>
      <height>40</height>
@@ -80,6 +75,10 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}
+</string>
+   </property>
    <property name="text">
     <string>0</string>
    </property>
@@ -87,7 +86,7 @@
   <widget class="QLabel" name="next_1">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>330</x>
      <y>130</y>
      <width>80</width>
      <height>40</height>
@@ -96,6 +95,10 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}
+</string>
+   </property>
    <property name="text">
     <string>1</string>
    </property>
@@ -103,7 +106,7 @@
   <widget class="QLabel" name="next_2">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>330</x>
      <y>190</y>
      <width>80</width>
      <height>40</height>
@@ -112,6 +115,9 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
+   </property>
    <property name="text">
     <string>2</string>
    </property>
@@ -119,7 +125,7 @@
   <widget class="QLabel" name="next_3">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>330</x>
      <y>250</y>
      <width>80</width>
      <height>40</height>
@@ -128,6 +134,9 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
+   </property>
    <property name="text">
     <string>3</string>
    </property>
@@ -135,7 +144,7 @@
   <widget class="QLabel" name="next_4">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>330</x>
      <y>310</y>
      <width>80</width>
      <height>40</height>
@@ -144,6 +153,10 @@
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}
+</string>
+   </property>
    <property name="text">
     <string>4</string>
    </property>
@@ -151,14 +164,14 @@
   <widget class="QWidget" name="widget_2" native="true">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>320</x>
      <y>20</y>
-     <width>161</width>
+     <width>101</width>
      <height>341</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(247, 247, 247);</string>
+    <string notr="true">background-color: white; border: 0px; border-radius: 10px;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_score">
@@ -170,11 +183,8 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Corbel</family>
-     <pointsize>16</pointsize>
-    </font>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
    </property>
    <property name="text">
     <string>Score</string>
@@ -189,6 +199,9 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
+   </property>
    <property name="text">
     <string>TextLabel</string>
    </property>
@@ -202,11 +215,8 @@
      <height>21</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>Corbel</family>
-     <pointsize>16</pointsize>
-    </font>
+   <property name="styleSheet">
+    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
    </property>
    <property name="text">
     <string>High Score</string>
@@ -225,6 +235,23 @@
     <string>TextLabel</string>
    </property>
   </widget>
+  <widget class="QWidget" name="nextBox" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>0</y>
+     <width>151</width>
+     <height>381</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(20, 97, 173);</string>
+   </property>
+  </widget>
+  <zorder>nextBox</zorder>
   <zorder>widget_2</zorder>
   <zorder>widget</zorder>
   <zorder>label_next</zorder>
