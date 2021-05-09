@@ -26,9 +26,9 @@ These features are just the bare minimum while making the game, and we believe t
 * ~~Next~~
 * ~~Score~~
 * ~~High Score~~
-* ~~Randomizer~~
 * ~~Stylesheet~~
 * ~~Controls~~
+* Tetris Bag Style Randomizer
 * Music
 * Hold
 * Time
