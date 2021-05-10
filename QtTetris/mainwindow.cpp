@@ -324,12 +324,15 @@ void MainWindow::Timer(){
 }
 
 void MainWindow::scoreCheck(){
+    /*
     if (tiletime >= SMALLEST_TIME && Number->getnum() >= thesholdscore) {
         thesholdscore += 1000;
         tiletime -= 50;
         tileTimer->stop();
         tileTimer->start(tiletime);
-    }
+    } */
+
+
 }
 
 void MainWindow::changeBlock(){
@@ -435,7 +438,10 @@ void MainWindow::blockAction(){
 
                 reqTotalLines += (reqLines += 2);
 
-                if (linesCleared == reqTotalLines) Number->level++;
+                if (linesCleared == reqTotalLines) {
+                    Number->level++;
+                    tiletime -= 50;
+                }
             }
 
 
@@ -480,6 +486,7 @@ void MainWindow::gameReady()
 
 void MainWindow::gameLose()
 {
+    music->stop();
     QSound::play(":/Sounds/me_game_gameover.wav");
     if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
     prepareBlocks();
@@ -505,6 +512,7 @@ void MainWindow::gamePause()
 {
     gamemod=pause;
     tileTimer->stop();
+    music->pause();
 
 }
 
@@ -515,11 +523,11 @@ void MainWindow::gameStart()
     tileTimer->start(tiletime);
     elapsedTime->restart();
 
-    QMediaPlaylist *playlist = new QMediaPlaylist();
+    playlist = new QMediaPlaylist();
     playlist->addMedia(QUrl("qrc:/Sounds/uih.wav"));
     playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
-    QMediaPlayer *music = new QMediaPlayer();
+    music = new QMediaPlayer();
     music->setPlaylist(playlist);
     music->play();
     music->setVolume(50);

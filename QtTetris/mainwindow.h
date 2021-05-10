@@ -6,6 +6,8 @@
 #include <QApplication>
 #include <QMouseEvent>
 #include <QVector>
+#include <QMediaPlaylist>
+#include <QMediaPlayer>
 #include <tile.h>
 #include <area.h>
 #include "number.h"
@@ -44,6 +46,8 @@ private:
     TILE *tile;
     QTimer *tileTimer;
     QElapsedTimer *elapsedTime;
+    QMediaPlaylist *playlist;
+    QMediaPlayer *music;
     AREA *area;
     number *Number;
     QVector<int> piece;
