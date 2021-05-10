@@ -1,22 +1,31 @@
 #include "ui_mainwindow.h"
 #include "mainwindow.h"
-#include <QSignalMapper>
-#include <QRandomGenerator64>
+#include <ctime>
 #include <QDebug>
 #include <QPainter>
 #include <QPixmap>
+#include <QSignalMapper>
+#include <QRandomGenerator64>
+#include <QMessageBox>
+#include <iostream>
+#define SMALLEST_TIME 150
 using namespace std;
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     area = new AREA(this);
+
     prepareBlocks();
+
     updateNext();
+
     tile = new TILE(this, piece.at(0));
     piece.pop_front();
     generatePiece();
+
     Number = new number(this);
     gameReady();
 }
@@ -32,22 +41,29 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     case start:
         if (event->key() == Qt::Key_Escape) {
             gameLose();
+
             gameReady();
 
             return;
         }
         if (event->key() == Qt::Key_Z){
+            // rotate first
             tile->rotate();
             int prefix = tile->getPrefix();
-
+            // if at left boundary shift back
             if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
+
+
             tile->update();
         }
 
         if (event->key() == Qt::Key_X){
+            // rotate first
             tile->rotate_inv();
             int prefix = tile->getPrefix();
+            // if at left boundary shift back
             if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
+
             tile->update();
         }
 
@@ -57,7 +73,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
         if (event->key() == Qt::Key_K) {
-            blockAction();
+            blockAction(); // (block, down) = (0, 1)
             Number->setnum(Number->getnum() + 1);
         }
 
@@ -108,8 +124,8 @@ void MainWindow::prepareBlocks() {
 void MainWindow::createBlock(){
     Number->level = 1;
     thesholdscore = 1000;
-
-    Number->setnum(0); //reset
+    // reset area map
+    Number->setnum(0);
     area->clean();
     area->update();
     updateScores();
@@ -129,7 +145,7 @@ void MainWindow::Timer(){
 }
 
 void MainWindow::scoreCheck(){
-    if (tiletime >= 150 && Number->getnum() >= thesholdscore) {
+    if (tiletime >= SMALLEST_TIME && Number->getnum() >= thesholdscore) {
         thesholdscore += 1000;
         tiletime -= 50;
         tileTimer->stop();
@@ -155,6 +171,7 @@ void MainWindow::generatePiece() {
         }
     }
     int i = QRandomGenerator64::global()->bounded(0, seven_bag.size());
+    //qDebug() << i;
     piece.push_back(seven_bag.at(i));
     seven_bag.erase(seven_bag.begin() + i);
 }
@@ -191,6 +208,7 @@ void MainWindow::updateScores() {
 
 
 int MainWindow::collide(int dx, int dy){
+    // block1 and area
     int x, y;
     x = tile->pos().x()/WIDTH + 3 + dx;
     y = tile->pos().y()/WIDTH + 4 + dy;
@@ -205,19 +223,18 @@ void MainWindow::blockAction(){
         gameLose();
         return;
     }
-    //bottom
+    // touch bottom
     if (collide(0,1) == 1){
         int x, y, blksp = tile->getBlockSp();
         x = tile->pos().x()/WIDTH + 3;
         y = tile->pos().y()/WIDTH + 4;
-
-        //storing
+        // store in area
         for (int k = 3; k >= 0; k--)
             for (int j = 3; j >= 0; j--, blksp >>= 1)
                 if (blksp & 1) area->map[x+j][y+k] = tile->kind;
-                       area->update();
+        area->update();
 
-        //if some row(s) can be eliminated
+        // judge if some row(s) can be eliminated
         int res = area->eliminate();
 
         if (res){
@@ -234,6 +251,7 @@ void MainWindow::blockAction(){
 
                 if (linesCleared == reqTotalLines) Number->level++;
             }
+
 
             switch (res) {
                 case 1:
@@ -252,8 +270,11 @@ void MainWindow::blockAction(){
                     Number->setnum(Number->getnum() + 800*Number->level);
                     break;
             }
+            // the more row(s) are eliminated, the larger the volumn will be.
+
         }
         area->update();
+        // change the block back to top
         changeBlock();
     }
     else tile->move(tile->pos().x(), tile->pos().y() + WIDTH);
@@ -264,6 +285,7 @@ void MainWindow::gameReady()
     linesCleared = 0;
     gamemod=redy;
     createBlock();
+
 }
 
 void MainWindow::gameLose()
@@ -273,7 +295,9 @@ void MainWindow::gameLose()
     tile->change(piece.at(0));
     updateNext();
     piece.pop_front();
+
     generatePiece();
+
     gamemod=lose;
     tileTimer->stop();
 
