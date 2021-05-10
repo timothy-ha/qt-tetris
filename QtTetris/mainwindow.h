@@ -9,11 +9,6 @@
 #include <area.h>
 #include "number.h"
 
-#define WIDTH 30
-#define NUM_X 10
-#define NUM_Y 20
-#define PADDING 5
-
 namespace Ui {
 class MainWindow;
 }
@@ -61,8 +56,9 @@ private:
     int thesholdscore;
     int tiletime;
     int gamemod;
-    int win_width;
-    int win_height;
+    int X_SPACE = 34;
+    int Y_SPACE = 25;
+    int WIDTH = 30;
 
     enum
     {
