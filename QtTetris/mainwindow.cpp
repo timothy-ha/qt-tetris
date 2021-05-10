@@ -183,8 +183,9 @@ void MainWindow::hold(bool clear) {
                 changeBlock();
             } else {
                 (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
-                tile->change(holdPiece);
-                hold(true);
+                int temp = holdPiece;
+                holdPiece = tile->kind;
+                tile->change(temp);
             }
             held = true;
         }
@@ -395,8 +396,6 @@ void MainWindow::gameLose()
 
     gamemod=lose;
     tileTimer->stop();
-    elapsedTime->restart();
-
 }
 
 void MainWindow::gamePause()
@@ -411,5 +410,6 @@ void MainWindow::gameStart()
     gamemod=start;
     updateNext();
     tileTimer->start(tiletime);
+    elapsedTime->restart();
 }
 

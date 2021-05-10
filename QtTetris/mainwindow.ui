@@ -182,7 +182,7 @@
      <x>320</x>
      <y>440</y>
      <width>101</width>
-     <height>20</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="font">
@@ -192,24 +192,6 @@
    </property>
    <property name="text">
     <string>Score</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="score">
-   <property name="geometry">
-    <rect>
-     <x>320</x>
-     <y>460</y>
-     <width>101</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>20</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>0</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_lines">
@@ -431,6 +413,24 @@
    <property name="styleSheet">
     <string notr="true">background-color: white; border: 0px; border-radius: 10px;</string>
    </property>
+   <widget class="QLabel" name="score">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
   </widget>
   <zorder>nextBox</zorder>
   <zorder>widget_7</zorder>
@@ -447,7 +447,6 @@
   <zorder>next_3</zorder>
   <zorder>next_4</zorder>
   <zorder>label_score</zorder>
-  <zorder>score</zorder>
   <zorder>label_lines</zorder>
   <zorder>lines</zorder>
   <zorder>label_level</zorder>
