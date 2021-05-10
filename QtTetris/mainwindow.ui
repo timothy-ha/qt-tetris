@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
+    <width>560</width>
     <height>600</height>
    </rect>
   </property>
@@ -21,7 +21,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>584</width>
+    <width>560</width>
     <height>600</height>
    </size>
   </property>
@@ -53,14 +53,16 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
-   </property>
    <property name="text">
-    <string>Next</string>
+    <string>NEXT</string>
    </property>
   </widget>
   <widget class="QLabel" name="next_0">
@@ -177,14 +179,16 @@
   <widget class="QLabel" name="label_score">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>400</y>
-     <width>71</width>
-     <height>21</height>
+     <x>320</x>
+     <y>440</y>
+     <width>101</width>
+     <height>20</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Score</string>
@@ -193,43 +197,52 @@
   <widget class="QLabel" name="score">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>430</y>
-     <width>55</width>
-     <height>16</height>
+     <x>320</x>
+     <y>460</y>
+     <width>101</width>
+     <height>20</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>0</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_hscore">
+  <widget class="QLabel" name="label_lines">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>460</y>
-     <width>81</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLabel{color: rgb(0, 0, 0);}</string>
-   </property>
-   <property name="text">
-    <string>High Score</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="high_score">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>490</y>
-     <width>55</width>
+     <x>440</x>
+     <y>140</y>
+     <width>101</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Lines</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lines">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>160</y>
+     <width>101</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>0</string>
@@ -243,8 +256,8 @@
     <rect>
      <x>300</x>
      <y>0</y>
-     <width>151</width>
-     <height>381</height>
+     <width>261</width>
+     <height>601</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -254,11 +267,16 @@
   <widget class="QLabel" name="label_level">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>520</y>
-     <width>55</width>
+     <x>450</x>
+     <y>510</y>
+     <width>81</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Level</string>
@@ -267,11 +285,16 @@
   <widget class="QLabel" name="level">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>540</y>
-     <width>55</width>
+     <x>450</x>
+     <y>530</y>
+     <width>81</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>0</string>
@@ -280,34 +303,26 @@
   <widget class="QLabel" name="time">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>430</y>
-     <width>81</width>
+     <x>440</x>
+     <y>460</y>
+     <width>101</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>00:00:00</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_time">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>410</y>
-     <width>55</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Time</string>
    </property>
   </widget>
   <widget class="QLabel" name="hold">
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>480</y>
+     <y>60</y>
      <width>80</width>
      <height>40</height>
     </rect>
@@ -320,16 +335,109 @@
    <property name="geometry">
     <rect>
      <x>450</x>
-     <y>460</y>
-     <width>55</width>
+     <y>30</y>
+     <width>81</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Hold</string>
    </property>
   </widget>
+  <widget class="QWidget" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>20</y>
+     <width>101</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white; border: 0px; border-radius: 10px;</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_4" native="true">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>430</y>
+     <width>101</width>
+     <height>55</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white; border: 0px; border-radius: 10px;</string>
+   </property>
+   <widget class="QLabel" name="label_time">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Time</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="widget_5" native="true">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>500</y>
+     <width>101</width>
+     <height>55</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white; border: 0px; border-radius: 10px;</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_6" native="true">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>130</y>
+     <width>101</width>
+     <height>55</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white; border: 0px; border-radius: 10px;</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_7" native="true">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>430</y>
+     <width>101</width>
+     <height>55</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white; border: 0px; border-radius: 10px;</string>
+   </property>
+  </widget>
   <zorder>nextBox</zorder>
+  <zorder>widget_7</zorder>
+  <zorder>widget_6</zorder>
+  <zorder>widget_4</zorder>
+  <zorder>widget_5</zorder>
+  <zorder>widget_3</zorder>
   <zorder>widget_2</zorder>
   <zorder>widget</zorder>
   <zorder>label_next</zorder>
@@ -340,12 +448,11 @@
   <zorder>next_4</zorder>
   <zorder>label_score</zorder>
   <zorder>score</zorder>
-  <zorder>label_hscore</zorder>
-  <zorder>high_score</zorder>
+  <zorder>label_lines</zorder>
+  <zorder>lines</zorder>
   <zorder>label_level</zorder>
   <zorder>level</zorder>
   <zorder>time</zorder>
-  <zorder>label_time</zorder>
   <zorder>hold</zorder>
   <zorder>label_hold</zorder>
  </widget>

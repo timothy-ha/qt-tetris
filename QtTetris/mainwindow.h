@@ -32,7 +32,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
-    void hold();
+    void hold(bool clear = false);
     void updateNext();
     void updateScores();
     void prepareBlocks();

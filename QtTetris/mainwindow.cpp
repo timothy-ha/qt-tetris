@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QElapsedTimer>
+#include <QFontDatabase>
 #include <QPainter>
 #include <QPixmap>
 #include <QSignalMapper>
@@ -17,6 +18,58 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QFontDatabase::addApplicationFont(":/Fonts/Roboto-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/Fonts/Roboto-Bold.ttf");
+    QFont bold = QFont("Roboto", 20, QFont::Bold);
+    QFont font = QFont("Roboto", 20, 1);
+    //MainWindow::setFont(bold);
+
+
+
+    //ui->label_level->setStyleSheet("QLabel{color: rgb(0, 0, 0);}");
+
+    QPalette palette = ui->label_level->palette();
+    palette.setColor(ui->label_level->foregroundRole(), Qt::black);
+
+    ui->label_next->setPalette(palette);
+    ui->label_next->setFont(bold);
+    ui->label_next->setAlignment(Qt::AlignCenter);
+
+    ui->label_score->setPalette(palette);
+    ui->label_score->setFont(bold);
+    ui->label_score->setAlignment(Qt::AlignCenter);
+
+    ui->score->setPalette(palette);
+    ui->score->setFont(font);
+    ui->score->setAlignment(Qt::AlignCenter);
+
+    ui->label_lines->setPalette(palette);
+    ui->label_lines->setFont(bold);
+    ui->label_lines->setAlignment(Qt::AlignCenter);
+
+    ui->lines->setPalette(palette);
+    ui->lines->setFont(font);
+    ui->lines->setAlignment(Qt::AlignCenter);
+
+    ui->label_level->setPalette(palette);
+    ui->label_level->setFont(bold);
+    ui->label_level->setAlignment(Qt::AlignCenter);
+
+    ui->level->setPalette(palette);
+    ui->level->setFont(font);
+    ui->level->setAlignment(Qt::AlignCenter);
+
+    ui->label_time->setPalette(palette);
+    ui->label_time->setFont(bold);
+    ui->label_time->setAlignment(Qt::AlignCenter);
+
+    ui->time->setPalette(palette);
+    ui->time->setFont(font);
+    ui->time->setAlignment(Qt::AlignCenter);
+
+    ui->label_hold->setPalette(palette);
+    ui->label_hold->setFont(bold);
+    ui->label_hold->setAlignment(Qt::AlignCenter);
 
     elapsedTime = new QElapsedTimer();
 
@@ -122,26 +175,27 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
-void MainWindow::hold() {
-    if (!held) {
-        if (holdPiece == 0) {
-            holdPiece = tile->kind;
-            changeBlock();
-            held = true;
-
-        } else {
-            (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
-            tile->change(holdPiece);
-            holdPiece = 0;
+void MainWindow::hold(bool clear) {
+    if (!clear) {
+        if (!held) {
+            if (holdPiece == 0) {
+                holdPiece = tile->kind;
+                changeBlock();
+            } else {
+                (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
+                tile->change(holdPiece);
+                hold(true);
+            }
             held = true;
         }
+    } else {
+        holdPiece = 0;
     }
 
     QPixmap a(next_src[holdPiece]);
     ui->hold->setPixmap(a);
     ui->hold->setAlignment(Qt::AlignCenter);
 
-    //ui->hold->setText(QString::number(holdPiece));
 }
 
 void MainWindow::prepareBlocks() {
@@ -234,7 +288,7 @@ void MainWindow::updateNext() {
 void MainWindow::updateScores() {
     ui->level->setText(QString::number(Number->level));
     ui->score->setText(QString::number(Number->getnum()));
-    ui->high_score->setText(QString::number(Number->getHighScore()));
+    //ui->high_score->setText(QString::number(Number->getHighScore()));
 }
 
 
@@ -315,12 +369,14 @@ void MainWindow::blockAction(){
         changeBlock();
     }
     else tile->move(tile->pos().x(), tile->pos().y() + WIDTH);
+
+    ui->lines->setText(QString::number(linesCleared));
 }
 
 void MainWindow::gameReady()
 {
     held = false;
-    holdPiece = 0;
+    hold(true);
     linesCleared = 0;
     gamemod=redy;
     createBlock();
