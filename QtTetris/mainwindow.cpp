@@ -86,9 +86,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->label_hold->setFont(bold);
     ui->label_hold->setAlignment(Qt::AlignCenter);
 
-    ui->label_controls->setPalette(palette);
-    ui->label_controls->setFont(bold);
-    ui->label_controls->setAlignment(Qt::AlignCenter);
+    //ui->label_controls->setPalette(palette);
+    //ui->label_controls->setFont(bold);
+    //ui->label_controls->setAlignment(Qt::AlignCenter);
 
     elapsedTime = new QElapsedTimer();
 
