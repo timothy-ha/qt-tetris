@@ -44,6 +44,10 @@ void TILE::rotate_inv(){
     rot = (rot + 3) % 4;
 }
 
+void TILE::flip(){
+    rot = (rot + 2) % 4;
+}
+
 void TILE::change(int k){
     kind = k;
 }

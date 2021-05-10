@@ -43,6 +43,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->score->setFont(font);
     ui->score->setAlignment(Qt::AlignCenter);
 
+    ui->label_best->setPalette(palette);
+    ui->label_best->setFont(bold);
+    ui->label_best->setAlignment(Qt::AlignCenter);
+
+    ui->best->setPalette(palette);
+    ui->best->setFont(font);
+    ui->best->setAlignment(Qt::AlignCenter);
+
     ui->label_lines->setPalette(palette);
     ui->label_lines->setFont(bold);
     ui->label_lines->setAlignment(Qt::AlignCenter);
@@ -70,6 +78,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->label_hold->setPalette(palette);
     ui->label_hold->setFont(bold);
     ui->label_hold->setAlignment(Qt::AlignCenter);
+
+    ui->label_controls->setPalette(palette);
+    ui->label_controls->setFont(bold);
+    ui->label_controls->setAlignment(Qt::AlignCenter);
 
     elapsedTime = new QElapsedTimer();
 
@@ -104,22 +116,31 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             return;
         }
         if (event->key() == Qt::Key_Z){
-            // rotate first
             tile->rotate();
+            QPoint original = tile->pos();
             int prefix = tile->getPrefix();
             // if at left boundary shift back
             if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
-
+                // if collide someone rotate and move bcak
+                if (collide(0,0)) {
+                    tile->rotate_inv();
+                    tile->move(original);
+                }
 
             tile->update();
         }
 
         if (event->key() == Qt::Key_X){
-            // rotate first
             tile->rotate_inv();
+            QPoint original = tile->pos();
             int prefix = tile->getPrefix();
             // if at left boundary shift back
             if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
+                // if collide someone rotate and move bcak
+                if (collide(0,0)) {
+                    tile->rotate();
+                    tile->move(original);
+                }
 
             tile->update();
         }
@@ -129,7 +150,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
         }
 
+        if (event->key() == Qt::Key_Left){
+            int res = collide(-1,0);
+            if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
+        }
+
         if (event->key() == Qt::Key_K) {
+            blockAction(); // (block, down) = (0, 1)
+            Number->setnum(Number->getnum() + 1);
+        }
+
+        if (event->key() == Qt::Key_Down) {
             blockAction(); // (block, down) = (0, 1)
             Number->setnum(Number->getnum() + 1);
         }
@@ -138,6 +169,42 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             int res = collide(1,0);
             if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
         }
+
+        if (event->key() == Qt::Key_Right){
+            int res = collide(1,0);
+            if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
+        }
+
+        if (event->key() == Qt::Key_I){
+            tile->flip();
+            QPoint original = tile->pos();
+            int prefix = tile->getPrefix();
+            // if at left boundary shift back
+            if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
+                // if collide someone rotate and move bcak
+                if (collide(0,0)) {
+                    tile->flip();
+                    tile->move(original);
+                }
+
+            tile->update();
+        }
+
+        if (event->key() == Qt::Key_Up){
+            tile->flip();
+            QPoint original = tile->pos();
+            int prefix = tile->getPrefix();
+            // if at left boundary shift back
+            if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
+                // if collide someone rotate and move bcak
+                if (collide(0,0)) {
+                    tile->flip();
+                    tile->move(original);
+                }
+
+            tile->update();
+        }
+
         if (event->key() == Qt::Key_P) gamePause();
 
         if (event->key() == Qt::Key_Space) {
@@ -289,7 +356,7 @@ void MainWindow::updateNext() {
 void MainWindow::updateScores() {
     ui->level->setText(QString::number(Number->level));
     ui->score->setText(QString::number(Number->getnum()));
-    //ui->high_score->setText(QString::number(Number->getHighScore()));
+    ui->best->setText(QString::number(Number->getHighScore()));
 }
 
 

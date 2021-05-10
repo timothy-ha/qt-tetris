@@ -17,6 +17,7 @@ public:
     void paintEvent(QPaintEvent *);
     void rotate();
     void rotate_inv();
+    void flip();
     void change(int k = 0);
 
     int kind;
