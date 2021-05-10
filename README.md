@@ -29,6 +29,7 @@ These features are just the bare minimum while making the game, and we believe t
 * ~~Stylesheet~~
 * ~~Controls~~
 * ~~7-bag Randomizer~~
+* ~~Levels~~
 * Music
 * Hold
 * Time
