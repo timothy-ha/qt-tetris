@@ -14,17 +14,17 @@ TARGET = QtTetris
 TEMPLATE = app
 
 CONFIG += c++11
-CONFIG+=sdk_no_version_check
+
 
 SOURCES += main.cpp\
         mainwindow.cpp \
     area.cpp \
-    score.cpp \
+    number.cpp \
     tile.cpp
 
 HEADERS  += mainwindow.h \
     area.h \
-    score.h \
+    number.h \
     tile.h
 
 RESOURCES += \

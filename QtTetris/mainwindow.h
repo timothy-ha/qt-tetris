@@ -1,9 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "tile.h"
-#include "area.h"
-#include "score.h"
 #include <QElapsedTimer>
 #include <QMainWindow>
 #include <QApplication>
@@ -11,8 +8,14 @@
 #include <QVector>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
-using namespace std;
+#include <tile.h>
+#include <area.h>
+#include "number.h"
 
+#define WIDTH 30
+#define NUM_X 10
+#define NUM_Y 20
+#define PADDING 5
 
 namespace Ui {
     class MainWindow;
@@ -23,7 +26,7 @@ class MainWindow : public QMainWindow {
 
 public:
     MainWindow(QWidget *parent = 0);
-
+    QString next_src[8] = {"",":/Image/1a.png",":/Image/La.png" , ":/Image/Ja.png", ":/Image/Ta.png", ":/Image/Sa.png", ":/Image/Za.png", ":/Image/#a.png" };
     ~MainWindow();
 
 protected:
@@ -47,7 +50,7 @@ private:
     QMediaPlaylist *playlist;
     QMediaPlayer *music;
     AREA *area;
-    score *Score;
+    number *Number;
     QVector<int> piece;
     QVector<int> seven_bag;
     Ui::MainWindow* ui;
@@ -59,29 +62,16 @@ private:
     void createBlock();
     void changeBlock();
     void Timer();
-<<<<<<< HEAD
-=======
-
->>>>>>> 80b461dbdb284b8dabbdab65722f8c78ed824f1b
     int collide(int dx, int dy);
 
     bool held;
     int holdPiece;
     int linesCleared;
     int tiletime;
-<<<<<<< HEAD
     int mode;
 
-=======
-    int gamemod;
->>>>>>> 80b461dbdb284b8dabbdab65722f8c78ed824f1b
     int time;
     int old_time = 0;
-    const int WIDTH = 30;
-    const int X_SPACE = 14;
-    const int Y_SPACE = 25;
-
-    QString next_src[8] = {"",":/Image/1a.png",":/Image/La.png" , ":/Image/Ja.png", ":/Image/Ta.png", ":/Image/Sa.png", ":/Image/Za.png", ":/Image/#a.png" };
 
     enum { lose = 0, start = 1, ready = 2, pause = 3 };
 };

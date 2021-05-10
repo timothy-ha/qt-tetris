@@ -1,19 +1,29 @@
 #include "tile.h"
 #include <QDebug>
 #include <iostream>
+using namespace std;
+int WIDTH = 30;
 
 TILE::TILE(QWidget *parent, int k) : QWidget(parent)
 {
     this->setFixedSize(WIDTH*4, WIDTH*4);
     type = k;
     rot = 0;
+    int map[7][4] = {
+        {15,4369,15,4369},
+        {23,785,116,547},
+        {71,275,113,802},
+        {39,305,114,562},
+        {54,561,54,561},
+        {99,306,99,306},
+        {51,51,51,51}
+    };
     memcpy(sp, map, sizeof(int)*32);
 }
 
 TILE::~TILE()
 {}
 
-<<<<<<< HEAD
 void TILE::paintEvent(QPaintEvent *)
 {
 
@@ -26,8 +36,6 @@ void TILE::paintEvent(QPaintEvent *)
             if (bp & 1) painter.drawPixmap(j*WIDTH, i*WIDTH, WIDTH, WIDTH, pix);
 }
 
-=======
->>>>>>> 80b461dbdb284b8dabbdab65722f8c78ed824f1b
 void TILE::rotate(){
     rot = (rot + 1) % 4;
 }
@@ -44,21 +52,6 @@ void TILE::change(int k){
     type = k;
 }
 
-int TILE::getBlockSp(){
-    return sp[kind-1][rot];
-}
-
-void TILE::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    QPixmap pix;
-    pix.load(src[kind]);
-    int bp = sp[kind-1][rot];
-    for (int i = 3; i >= 0; i--)
-        for (int j = 3; j >= 0; j--, bp >>= 1)
-            if (bp & 1) painter.drawPixmap(j*WIDTH, i*WIDTH, WIDTH, WIDTH, pix);
-}
-
 int TILE::getPrefix(){
     int res = 4;
     int bp = sp[type-1][rot];
@@ -69,10 +62,6 @@ int TILE::getPrefix(){
     return res;
 }
 
-<<<<<<< HEAD
 int TILE::getBlockSp(){
     return sp[type-1][rot];
 }
-=======
-
->>>>>>> 80b461dbdb284b8dabbdab65722f8c78ed824f1b
