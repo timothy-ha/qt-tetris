@@ -5,12 +5,6 @@
 #include <QPainter>
 #include <QPixmap>
 
-#define WIDTH 30
-#define NUM_X 10
-#define NUM_Y 20
-#define X_SPACE (NUM_X+3+1)
-#define Y_SPACE (NUM_Y+4+1)
-
 class AREA : public QWidget
 {
     Q_OBJECT
@@ -18,10 +12,13 @@ class AREA : public QWidget
 public:
     explicit AREA(QWidget *parent = 0);
     void paintEvent(QPaintEvent *);
-    int map[X_SPACE][Y_SPACE];
+    int map[14][25];
     int getAreaSp(int, int);
     void clean();
     int eliminate();
+    const int WIDTH = 30;
+    const int X_SPACE = 14;
+    const int Y_SPACE = 25;
 
     ~AREA();
 private:

@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "tile.h"
+#include "area.h"
+#include "number.h"
 #include <QElapsedTimer>
 #include <QMainWindow>
 #include <QApplication>
@@ -8,14 +11,8 @@
 #include <QVector>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
-#include <tile.h>
-#include <area.h>
-#include "number.h"
 
-#define WIDTH 30
-#define NUM_X 10
-#define NUM_Y 20
-#define PADDING 5
+
 
 namespace Ui {
 class MainWindow;
@@ -27,7 +24,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = 0);
-    QString next_src[8] = {"",":/Image/1a.png",":/Image/La.png" , ":/Image/Ja.png", ":/Image/Ta.png", ":/Image/Sa.png", ":/Image/Za.png", ":/Image/#a.png" };
+
     ~MainWindow();
 
 protected:
@@ -40,7 +37,6 @@ private slots:
     void prepareBlocks();
     void generatePiece();
     void blockAction();
-    void scoreCheck();
 
 private:
     TILE *tile;
@@ -62,7 +58,6 @@ private:
     void changeBlock();
     void Timer();
 
-
     int collide(int dx, int dy);
     bool held;
     int holdPiece;
@@ -70,10 +65,13 @@ private:
     int thesholdscore;
     int tiletime;
     int gamemod;
-    int win_width;
-    int win_height;
     int time;
     int old_time = 0;
+    const int WIDTH = 30;
+    const int X_SPACE = 14;
+    const int Y_SPACE = 25;
+
+    QString next_src[8] = {"",":/Image/1a.png",":/Image/La.png" , ":/Image/Ja.png", ":/Image/Ta.png", ":/Image/Sa.png", ":/Image/Za.png", ":/Image/#a.png" };
 
     enum
     {
