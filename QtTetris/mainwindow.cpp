@@ -1,6 +1,5 @@
 #include "ui_mainwindow.h"
 #include "mainwindow.h"
-#include <ctime>
 #include <QDebug>
 #include <QDateTime>
 #include <QElapsedTimer>
@@ -11,29 +10,20 @@
 #include <QRandomGenerator64>
 #include <QMessageBox>
 #include <QSound>
-#include <QSoundEffect>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <iostream>
 #define SMALLEST_TIME 150
 using namespace std;
 
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-
 
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Regular.ttf");
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Bold.ttf");
     QFont bold = QFont("Roboto", 13, QFont::Bold);
     QFont font = QFont("Roboto", 13, 1);
-    //MainWindow::setFont(bold);
-
-
-
-    //ui->label_level->setStyleSheet("QLabel{color: rgb(0, 0, 0);}");
 
     QPalette palette = ui->label_level->palette();
     palette.setColor(ui->label_level->foregroundRole(), Qt::black);
@@ -86,10 +76,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->label_hold->setFont(bold);
     ui->label_hold->setAlignment(Qt::AlignCenter);
 
-    //ui->label_controls->setPalette(palette);
-    //ui->label_controls->setFont(bold);
-    //ui->label_controls->setAlignment(Qt::AlignCenter);
-
     elapsedTime = new QElapsedTimer();
 
     area = new AREA(this);
@@ -106,165 +92,94 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     gameReady();
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    switch (gamemod) {
-    case start:
-        if (event->key() == Qt::Key_Escape) {
-            gameLose();
-
-            gameReady();
-
-            return;
-        }
-        if (event->key() == Qt::Key_Z){
-            QSound::play(":/Sounds/se_game_rotate.wav");
-
-            tile->rotate();
-            QPoint original = tile->pos();
-            int prefix = tile->getPrefix();
-            // if at left boundary shift back
-            if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
-                // if collide someone rotate and move bcak
-                if (collide(0,0)) {
-                    tile->rotate_inv();
-                    tile->move(original);
-                }
-
-            tile->update();
-        }
-
-        if (event->key() == Qt::Key_X){
-            QSound::play(":/Sounds/se_game_rotate.wav");
-
-            tile->rotate_inv();
-            QPoint original = tile->pos();
-            int prefix = tile->getPrefix();
-            // if at left boundary shift back
-            if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
-                // if collide someone rotate and move bcak
-                if (collide(0,0)) {
-                    tile->rotate();
-                    tile->move(original);
-                }
-
-            tile->update();
-        }
-
-        if (event->key() == Qt::Key_J){
-            QSound::play(":/Sounds/se_game_move.wav");
-            int res = collide(-1,0);
-            if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
-        }
-
-        if (event->key() == Qt::Key_Left){
-            QSound::play(":/Sounds/se_game_move.wav");
-            int res = collide(-1,0);
-            if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
-        }
-
-        if (event->key() == Qt::Key_K) {
-            QSound::play(":/Sounds/se_game_move.wav");
-            blockAction(); // (block, down) = (0, 1)
-            Number->setnum(Number->getnum() + 1);
-        }
-
-        if (event->key() == Qt::Key_Down) {
-            QSound::play(":/Sounds/se_game_move.wav");
-            blockAction(); // (block, down) = (0, 1)
-            Number->setnum(Number->getnum() + 1);
-        }
-
-        if (event->key() == Qt::Key_L){
-            QSound::play(":/Sounds/se_game_move.wav");
-            int res = collide(1,0);
-            if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
-        }
-
-        if (event->key() == Qt::Key_Right){
-            QSound::play(":/Sounds/se_game_move.wav");
-            int res = collide(1,0);
-            if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
-        }
-
-        if (event->key() == Qt::Key_I){
-            QSound::play(":/Sounds/se_game_rotate.wav");
-            tile->flip();
-            QPoint original = tile->pos();
-            int prefix = tile->getPrefix();
-            // if at left boundary shift back
-            if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
-                // if collide someone rotate and move bcak
-                if (collide(0,0)) {
-                    tile->flip();
-                    tile->move(original);
-                }
-
-            tile->update();
-        }
-
-        if (event->key() == Qt::Key_Up){
-            QSound::play(":/Sounds/se_game_rotate.wav");
-            tile->flip();
-            QPoint original = tile->pos();
-            int prefix = tile->getPrefix();
-            // if at left boundary shift back
-            if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
-                // if collide someone rotate and move bcak
-                if (collide(0,0)) {
-                    tile->flip();
-                    tile->move(original);
-                }
-
-            tile->update();
-        }
-
-        if (event->key() == Qt::Key_P) {
-            old_time = time;
-
-
-            gamePause();
-        }
-
-        if (event->key() == Qt::Key_Space) {
-            // hard drop
-            QSound::play(":/Sounds/se_game_harddrop.wav");
-            int a = tile->pos().y()/30;
-            Number->setnum(Number->getnum() + 2);
-            int res = collide(0,1);
-            while (res != 1) {
-                if (!res) blockAction();
-                res = collide(0,1);
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    switch (mode) {
+        case start:
+            if (event->key() == Qt::Key_Escape) {
+                gameLose();
+                gameReady();
+                return;
             }
 
-            int b = tile->pos().y()/30;
-            int dist = b - a;
+            if (event->key() == Qt::Key_Z) rotate(1);
 
-            Number->setnum(Number->getnum() + (dist * 2));
+            if (event->key() == Qt::Key_X) rotate(2);
+
+            if (event->key() == Qt::Key_J) move(-1);
+
+            if (event->key() == Qt::Key_Left) move(-1);
+
+            if (event->key() == Qt::Key_K) drop(0);
+
+            if (event->key() == Qt::Key_Down) drop(0);
+
+            if (event->key() == Qt::Key_L) move(1);
+
+            if (event->key() == Qt::Key_Right) move(1);
+
+            if (event->key() == Qt::Key_I) rotate(0);
+
+            if (event->key() == Qt::Key_Up) rotate(0);
+
+            if (event->key() == Qt::Key_P) {
+                old_time = time;
+                gamePause();
+            }
+
+            if (event->key() == Qt::Key_Space) drop(1);
+
+            if (event->key() == Qt::Key_Shift) hold();
+
+            break;
+
+        case lose:
+            gameReady();
+            break;
+
+        case ready:
+            if (event->key() == Qt::Key_Escape) close();
+            else gameStart();
+            break;
+
+        default:
+            gameStart();
+            break;
         }
+}
 
-        if (event->key() == Qt::Key_Shift) hold();
+void MainWindow::move(int a) {
+    int res = collide(a,0);
+    if (!res) {
+        QSound::play(":/Sounds/se_game_move.wav");
+        tile->move(tile->pos().x() + WIDTH * a, tile->pos().y());
+    }
+}
 
-        break;
-    case lose:
-        gameReady();
-        break;
-    case redy:
-        if (event->key() == Qt::Key_Escape) {
-            close();
-        }
-        else gameStart();
-        break;
-    default:
-        gameStart();
-        break;
+void MainWindow::rotate(int a) {
+    if (a == 0) tile->flip();
+    else if (a == 1) tile->rotate();
+    else if (a == 2) tile->rotate_inv();
+
+    QPoint original = tile->pos();
+    int prefix = tile->getPrefix();
+    // revert if hit boundary
+    if (tile->pos().x() < (-prefix)*WIDTH) tile->move((-prefix)*WIDTH, tile->pos().y());
+    // if collide with block revert
+    if (collide(0,0)) {
+        if (a == 0) tile->flip();
+        else if (a == 1) tile->rotate_inv();
+        else if (a == 2) tile->rotate();
+        tile->move(original);
+    } else {
+        QSound::play(":/Sounds/se_game_rotate.wav");
     }
 
+
+    tile->update();
 }
 
 void MainWindow::hold(bool clear) {
@@ -272,12 +187,12 @@ void MainWindow::hold(bool clear) {
         if (!held) {
             QSound::play(":/Sounds/se_game_hold.wav");
             if (holdPiece == 0) {
-                holdPiece = tile->kind;
+                holdPiece = tile->type;
                 changeBlock();
             } else {
-                (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
+                (tile->type == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
                 int temp = holdPiece;
-                holdPiece = tile->kind;
+                holdPiece = tile->type;
                 tile->change(temp);
             }
             held = true;
@@ -292,6 +207,32 @@ void MainWindow::hold(bool clear) {
 
 }
 
+void MainWindow::drop(int a) {
+    switch (a) {
+        case 0:
+            QSound::play(":/Sounds/se_game_softdrop.wav");
+            blockAction(); // (block, down) = (0, 1)
+            Number->addScore(1);
+            break;
+        case 1:
+            int a = tile->pos().y()/30;
+            int res = collide(0,1);
+            if (!res)  QSound::play(":/Sounds/se_game_harddrop.wav");
+
+            while (res != 1) {
+                if (!res) {
+                    blockAction();
+                }
+                res = collide(0,1);
+            }
+
+            int b = tile->pos().y()/30;
+            int dist = b - a;
+
+            Number->addScore(dist * 2);
+    }
+}
+
 void MainWindow::prepareBlocks() {
     seven_bag.clear();
     piece.clear();
@@ -300,48 +241,35 @@ void MainWindow::prepareBlocks() {
     }
 }
 
-void MainWindow::createBlock(){
+void MainWindow::createBlock() {
     Number->level = 1;
-    thesholdscore = 1000;
     // reset area map
-    Number->setnum(0);
+    Number->resetScore();
     area->clean();
     area->update();
     updateScores();
     tileTimer = new QTimer(this);
     tiletime = 500;
-    (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
+    (tile->type == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
     Timer();
 }
 
 
-void MainWindow::Timer(){
+void MainWindow::Timer() {
     QSignalMapper* signalMapper = new QSignalMapper (this) ;
     connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
     signalMapper->setMapping(tileTimer, 0 << 1);
     connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(blockAction()));
-    connect(tileTimer, SIGNAL(timeout()), this, SLOT(scoreCheck()));
+    //connect(tileTimer, SIGNAL(timeout()), this, SLOT(scoreCheck()));
 }
 
-void MainWindow::scoreCheck(){
-    /*
-    if (tiletime >= SMALLEST_TIME && Number->getnum() >= thesholdscore) {
-        thesholdscore += 1000;
-        tiletime -= 50;
-        tileTimer->stop();
-        tileTimer->start(tiletime);
-    } */
-
-
-}
-
-void MainWindow::changeBlock(){
+void MainWindow::changeBlock() {
     held = false;
     tile->rot = 0;
     tile->change(piece.at(0));
     piece.pop_front();
     generatePiece();
-    (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
+    (tile->type == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
     updateScores();
     updateNext();
 }
@@ -353,7 +281,6 @@ void MainWindow::generatePiece() {
         }
     }
     int i = QRandomGenerator64::global()->bounded(0, seven_bag.size());
-    //qDebug() << i;
     piece.push_back(seven_bag.at(i));
     seven_bag.erase(seven_bag.begin() + i);
 }
@@ -362,30 +289,31 @@ void MainWindow::updateNext() {
     ui->label_next->setAlignment(Qt::AlignCenter);
 
     QPixmap a(next_src[piece.at(0)]);
+    QPixmap b(next_src[piece.at(1)]);
+    QPixmap c(next_src[piece.at(2)]);
+    QPixmap d(next_src[piece.at(3)]);
+    QPixmap e(next_src[piece.at(4)]);
+
     ui->next_0->setPixmap(a);
     ui->next_0->setAlignment(Qt::AlignCenter);
 
-    QPixmap b(next_src[piece.at(1)]);
     ui->next_1->setPixmap(b);
     ui->next_1->setAlignment(Qt::AlignCenter);
 
-    QPixmap c(next_src[piece.at(2)]);
     ui->next_2->setPixmap(c);
     ui->next_2->setAlignment(Qt::AlignCenter);
 
-    QPixmap d(next_src[piece.at(3)]);
     ui->next_3->setPixmap(d);
     ui->next_3->setAlignment(Qt::AlignCenter);
 
-    QPixmap e(next_src[piece.at(4)]);
     ui->next_4->setPixmap(e);
     ui->next_4->setAlignment(Qt::AlignCenter);
 }
 
 void MainWindow::updateScores() {
     ui->level->setText(QString::number(Number->level));
-    ui->score->setText(QString::number(Number->getnum()));
-    ui->best->setText(QString::number(Number->getHighScore()));
+    ui->score->setText(QString::number(Number->getScore()));
+    ui->best->setText(QString::number(Number->gethighScore()));
 }
 
 
@@ -398,8 +326,7 @@ int MainWindow::collide(int dx, int dy){
     return (blksp & areasp) ? 1: 0;
 }
 
-void MainWindow::blockAction(){
-
+void MainWindow::blockAction() {
     time = (int)(elapsedTime->nsecsElapsed()/1e9) + old_time;
     QString time_format = QDateTime::fromTime_t(time).toUTC().toString("hh:mm:ss");
 
@@ -407,25 +334,28 @@ void MainWindow::blockAction(){
 
     // lose
     for (int k = 3; k < X_SPACE-1; k++) if (area->map[k][3]) {
-        if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
+        if (Number->getScore() > Number->gethighScore()) Number->sethighScore(Number->getScore());
         gameLose();
+
         return;
     }
     // touch bottom
-    if (collide(0,1) == 1){
+
+    if (collide(0,1) == 1) {
         int x, y, blksp = tile->getBlockSp();
         x = tile->pos().x()/WIDTH + 3;
         y = tile->pos().y()/WIDTH + 4;
         // store in area
         for (int k = 3; k >= 0; k--)
             for (int j = 3; j >= 0; j--, blksp >>= 1)
-                if (blksp & 1) area->map[x+j][y+k] = tile->kind;
+                if (blksp & 1) area->map[x+j][y+k] = tile->type;
+
         area->update();
 
-        // judge if some row(s) can be eliminated
+        // check if rows can be eliminated
         int res = area->eliminate();
 
-        if (res){
+        if (res) {
             QSound::play(":/Sounds/me_game_start2.wav");
 
             linesCleared += res;
@@ -447,19 +377,19 @@ void MainWindow::blockAction(){
 
             switch (res) {
                 case 1:
-                    Number->setnum(Number->getnum() + 100*Number->level);
+                    Number->addScore(100*Number->level);
                     break;
 
                 case 2:
-                    Number->setnum(Number->getnum() + 300*Number->level);
+                    Number->addScore(300*Number->level);
                     break;
 
                 case 3:
-                    Number->setnum(Number->getnum() + 500*Number->level);
+                    Number->addScore(500*Number->level);
                     break;
 
                 case 4:
-                    Number->setnum(Number->getnum() + 800*Number->level);
+                    Number->addScore(800*Number->level);
                     break;
             }
             // the more row(s) are eliminated, the larger the volumn will be.
@@ -474,29 +404,26 @@ void MainWindow::blockAction(){
     ui->lines->setText(QString::number(linesCleared));
 }
 
-void MainWindow::gameReady()
-{
+void MainWindow::gameReady() {
     held = false;
     hold(true);
     linesCleared = 0;
-    gamemod=redy;
+    mode=ready;
     createBlock();
     elapsedTime->start();
 }
 
-void MainWindow::gameLose()
-{
+void MainWindow::gameLose() {
     music->stop();
     QSound::play(":/Sounds/me_game_gameover.wav");
-    if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
+    if (Number->getScore() > Number->gethighScore()) Number->sethighScore(Number->getScore());
     prepareBlocks();
     tile->change(piece.at(0));
     updateNext();
     piece.pop_front();
-
     generatePiece();
 
-    gamemod=lose;
+    mode = lose;
     tileTimer->stop();
 
     QMessageBox::information(
@@ -508,17 +435,14 @@ void MainWindow::gameLose()
 
 }
 
-void MainWindow::gamePause()
-{
-    gamemod=pause;
+void MainWindow::gamePause() {
+    mode = pause;
     tileTimer->stop();
     music->pause();
-
 }
 
-void MainWindow::gameStart()
-{
-    gamemod=start;
+void MainWindow::gameStart() {
+    mode = start;
     updateNext();
     tileTimer->start(tiletime);
     elapsedTime->restart();

@@ -17,32 +17,34 @@ class number : public QWidget
 public:
     explicit number(QWidget *parent = 0);
     ~number();
-    void setnum(int n)
-    {
-        num = n;
+
+    void addScore(int n) {
+        score += n;
     }
 
-    int getnum()
-    {
-        return num;
+    void resetScore() {
+        score = 0;
     }
 
-    int getHighScore()
-    {
-        return highscore;
+    int getScore() {
+        return score;
     }
-    int setHighScore(int n)
-    {
-        highscore = n;
-        return highscore;
+
+    int gethighScore() {
+        return highScore;
     }
+
+    int sethighScore(int n) {
+        highScore = n;
+        return highScore;
+    }
+
     int level;
 
 protected:
-    void paintEvent(QPaintEvent *);
-    int highscore;
+    int highScore;
 
-    int num;
+    int score;
     QTimer *numTimer;
     QString numString[10];
 };

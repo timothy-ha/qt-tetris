@@ -18,11 +18,10 @@
 #define PADDING 5
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -34,13 +33,15 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
+    void move(int a);
+    void rotate(int a);
     void hold(bool clear = false);
+    void drop(int a);
     void updateNext();
     void updateScores();
     void prepareBlocks();
     void generatePiece();
     void blockAction();
-    void scoreCheck();
 
 private:
     TILE *tile;
@@ -61,27 +62,18 @@ private:
     void createBlock();
     void changeBlock();
     void Timer();
-
-
     int collide(int dx, int dy);
+
     bool held;
     int holdPiece;
     int linesCleared;
-    int thesholdscore;
     int tiletime;
-    int gamemod;
-    int win_width;
-    int win_height;
+    int mode;
+
     int time;
     int old_time = 0;
 
-    enum
-    {
-        lose = 0,
-        start = 1,
-        redy = 2,
-        pause = 3
-    };
+    enum { lose = 0, start = 1, ready = 2, pause = 3 };
 };
 
 #endif
