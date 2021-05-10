@@ -8,6 +8,7 @@
 #include <tile.h>
 #include <area.h>
 #include "number.h"
+
 #define WIDTH 30
 #define NUM_X 10
 #define NUM_Y 20
@@ -27,7 +28,6 @@ public:
     ~MainWindow();
 
 protected:
-    //void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
@@ -39,15 +39,30 @@ private slots:
     void scoreCheck();
 
 private:
-    Ui::MainWindow* ui;
-    int win_width;
-    int win_height;
+    TILE *tile;
+    QTimer *tileTimer;
+    AREA *area;
+    number *Number;
     QVector<int> piece;
     QVector<int> seven_bag;
+    Ui::MainWindow* ui;
+
     void gameLose();
     void gameStart();
     void gameReady();
     void gamePause();
+    void createBlock();
+    void changeBlock();
+    void Timer();
+
+
+    int collide(int dx, int dy);
+    int thesholdscore;
+    int tiletime;
+    int gamemod;
+    int win_width;
+    int win_height;
+
     enum
     {
         lose = 0,
@@ -55,19 +70,6 @@ private:
         redy = 2,
         pause = 3
     };
-
-    int gamemod;
-    TILE *tile;
-
-    void createBlock();
-    void changeBlock();
-    QTimer *tileTimer;
-    int tiletime;
-    int collide(int dx, int dy);
-
-    AREA *area;
-    number *Number;
-    int thesholdscore;
 };
 
 #endif

@@ -123,6 +123,11 @@ void MainWindow::createBlock(){
     tileTimer = new QTimer(this);
     tiletime = 500;
     tile->move(2*WIDTH,-4*WIDTH);
+    Timer();
+}
+
+
+void MainWindow::Timer(){
     QSignalMapper* signalMapper = new QSignalMapper (this) ;
     connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
     signalMapper->setMapping(tileTimer, 0 << 1);
@@ -199,7 +204,6 @@ int MainWindow::collide(int dx, int dy){
     x = tile->pos().x()/WIDTH + 3 + dx;
     y = tile->pos().y()/WIDTH + 4 + dy;
     int blksp = tile->getBlockSp(), areasp = area->getAreaSp(x, y);
-
     return (blksp & areasp) ? 1: 0;
 }
 
