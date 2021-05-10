@@ -72,8 +72,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
         }
 
-        if (event->key() == Qt::Key_K)
+        if (event->key() == Qt::Key_K) {
             blockAction(); // (block, down) = (0, 1)
+            Number->setnum(Number->getnum() + 1);
+        }
 
         if (event->key() == Qt::Key_L){
             int res = collide(1,0);
@@ -81,11 +83,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
         if (event->key() == Qt::Key_P) gamePause();
         if (event->key() == Qt::Key_Space) {
+            int a = tile->pos().y()/30;
+            Number->setnum(Number->getnum() + 2);
             int res = collide(0,1);
             while (res != 1) {
                 if (!res) blockAction();
                 res = collide(0,1);
             }
+
+            int b = tile->pos().y()/30;
+            int dist = b - a;
+
+            Number->setnum(Number->getnum() + (dist * 2));
         }
         break;
     case lose:
@@ -113,7 +122,7 @@ void MainWindow::prepareBlocks() {
 }
 
 void MainWindow::createBlock(){
-    Number->level = 0;
+    Number->level = 1;
     thesholdscore = 1000;
     // reset area map
     Number->setnum(0);
@@ -141,7 +150,6 @@ void MainWindow::scoreCheck(){
         tiletime -= 50;
         tileTimer->stop();
         tileTimer->start(tiletime);
-
     }
 }
 
@@ -193,6 +201,7 @@ void MainWindow::updateNext() {
 }
 
 void MainWindow::updateScores() {
+    ui->level->setText(QString::number(Number->level));
     ui->score->setText(QString::number(Number->getnum()));
     ui->high_score->setText(QString::number(Number->getHighScore()));
 }
@@ -227,8 +236,40 @@ void MainWindow::blockAction(){
 
         // judge if some row(s) can be eliminated
         int res = area->eliminate();
+
         if (res){
-            Number->setnum(Number->getnum()+(1<<(res-1))*100);
+
+            linesCleared += res;
+
+            int reqLines = 0;
+            int reqTotalLines = 0;
+
+            for (int i = 0; i < 12; i++) {
+                if (i % 10 == 0) reqLines += 1;
+
+                reqTotalLines += (reqLines += 2);
+
+                if (linesCleared == reqTotalLines) Number->level++;
+            }
+
+
+            switch (res) {
+                case 1:
+                    Number->setnum(Number->getnum() + 100*Number->level);
+                    break;
+
+                case 2:
+                    Number->setnum(Number->getnum() + 300*Number->level);
+                    break;
+
+                case 3:
+                    Number->setnum(Number->getnum() + 500*Number->level);
+                    break;
+
+                case 4:
+                    Number->setnum(Number->getnum() + 800*Number->level);
+                    break;
+            }
             // the more row(s) are eliminated, the larger the volumn will be.
 
         }
@@ -241,6 +282,7 @@ void MainWindow::blockAction(){
 
 void MainWindow::gameReady()
 {
+    linesCleared = 0;
     gamemod=redy;
     createBlock();
 

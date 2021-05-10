@@ -57,6 +57,7 @@ private:
 
 
     int collide(int dx, int dy);
+    int linesCleared;
     int thesholdscore;
     int tiletime;
     int gamemod;
