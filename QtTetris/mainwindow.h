@@ -3,7 +3,7 @@
 
 #include "tile.h"
 #include "area.h"
-#include "number.h"
+#include "score.h"
 #include <QElapsedTimer>
 #include <QMainWindow>
 #include <QApplication>
@@ -11,7 +11,7 @@
 #include <QVector>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
-
+using namespace std;
 
 
 namespace Ui {
@@ -45,7 +45,7 @@ private:
     QMediaPlaylist *playlist;
     QMediaPlayer *music;
     AREA *area;
-    number *Number;
+    score *Score;
     QVector<int> piece;
     QVector<int> seven_bag;
     Ui::MainWindow* ui;

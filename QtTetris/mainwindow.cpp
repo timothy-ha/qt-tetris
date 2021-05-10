@@ -14,7 +14,6 @@
 #include <QSignalMapper>
 #include <QRandomGenerator64>
 
-using namespace std;
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -83,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     tile = new TILE(this, piece.at(0));
     piece.pop_front();
     generatePiece();
-    Number = new number(this);
+    Score = new score(this);
     gameReady();
 }
 
@@ -150,13 +149,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if (event->key() == Qt::Key_K) {
             QSound::play(":/Sounds/se_game_move.wav");
             blockAction(); // (block, down) = (0, 1)
-            Number->setnum(Number->getnum() + 1);
+            Score->setScore(Score->getScore() + 1);
         }
 
         if (event->key() == Qt::Key_Down) {
             QSound::play(":/Sounds/se_game_move.wav");
             blockAction(); // (block, down) = (0, 1)
-            Number->setnum(Number->getnum() + 1);
+            Score->setScore(Score->getScore() + 1);
         }
 
         if (event->key() == Qt::Key_L){
@@ -214,7 +213,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             // hard drop
             QSound::play(":/Sounds/se_game_harddrop.wav");
             int a = tile->pos().y()/30;
-            Number->setnum(Number->getnum() + 2);
+            Score->setScore(Score->getScore() + 2);
             int res = collide(0,1);
             while (res != 1) {
                 if (!res) blockAction();
@@ -224,7 +223,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             int b = tile->pos().y()/30;
             int dist = b - a;
 
-            Number->setnum(Number->getnum() + (dist * 2));
+            Score->setScore(Score->getScore() + (dist * 2));
         }
 
         if (event->key() == Qt::Key_Shift) hold();
@@ -280,10 +279,10 @@ void MainWindow::prepareBlocks() {
 }
 
 void MainWindow::createBlock(){
-    Number->level = 1;
+    Score->level = 1;
 
     // reset area map
-    Number->setnum(0);
+    Score->setScore(0);
     area->clean();
     area->update();
     updateScores();
@@ -351,9 +350,9 @@ void MainWindow::updateNext() {
 }
 
 void MainWindow::updateScores() {
-    ui->level->setText(QString::number(Number->level));
-    ui->score->setText(QString::number(Number->getnum()));
-    ui->best->setText(QString::number(Number->getHighScore()));
+    ui->level->setText(QString::number(Score->level));
+    ui->score->setText(QString::number(Score->getScore()));
+    ui->best->setText(QString::number(Score->getHighScore()));
 }
 
 
@@ -375,7 +374,7 @@ void MainWindow::blockAction(){
 
     // lose
     for (int k = 3; k < X_SPACE-1; k++) if (area->map[k][3]) {
-        if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
+        if (Score->getScore() > Score->getHighScore()) Score->setHighScore(Score->getScore());
         gameLose();
         return;
     }
@@ -407,7 +406,7 @@ void MainWindow::blockAction(){
                 reqTotalLines += (reqLines += 2);
 
                 if (linesCleared == reqTotalLines) {
-                    Number->level++;
+                    Score->level++;
                     tiletime -= 50;
                 }
             }
@@ -415,19 +414,19 @@ void MainWindow::blockAction(){
 
             switch (res) {
                 case 1:
-                    Number->setnum(Number->getnum() + 100*Number->level);
+                    Score->setScore(Score->getScore() + 100*Score->level);
                     break;
 
                 case 2:
-                    Number->setnum(Number->getnum() + 300*Number->level);
+                    Score->setScore(Score->getScore() + 300*Score->level);
                     break;
 
                 case 3:
-                    Number->setnum(Number->getnum() + 500*Number->level);
+                    Score->setScore(Score->getScore() + 500*Score->level);
                     break;
 
                 case 4:
-                    Number->setnum(Number->getnum() + 800*Number->level);
+                    Score->setScore(Score->getScore() + 800*Score->level);
                     break;
             }
 
@@ -482,7 +481,7 @@ void MainWindow::gameLose()
 {
     music->stop();
     QSound::play(":/Sounds/me_game_gameover.wav");
-    if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
+    if (Score->getScore() > Score->getHighScore()) Score->setHighScore(Score->getScore());
     prepareBlocks();
     tile->change(piece.at(0));
     updateNext();
