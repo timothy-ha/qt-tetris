@@ -14,7 +14,7 @@ TARGET = QtTetris
 TEMPLATE = app
 
 CONFIG += c++11
-
+CONFIG+=sdk_no_version_check
 
 SOURCES += main.cpp\
         mainwindow.cpp \
