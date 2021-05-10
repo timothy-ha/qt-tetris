@@ -1,6 +1,10 @@
 #include "ui_mainwindow.h"
 #include "mainwindow.h"
-#include <ctime>
+#include <QMessageBox>
+#include <QSound>
+#include <QSoundEffect>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include <QDebug>
 #include <QDateTime>
 #include <QElapsedTimer>
@@ -9,32 +13,17 @@
 #include <QPixmap>
 #include <QSignalMapper>
 #include <QRandomGenerator64>
-#include <QMessageBox>
-#include <QSound>
-#include <QSoundEffect>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
-#include <iostream>
-#define SMALLEST_TIME 150
-using namespace std;
+
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-
-
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Regular.ttf");
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Bold.ttf");
     QFont bold = QFont("Roboto", 13, QFont::Bold);
     QFont font = QFont("Roboto", 13, 1);
-    //MainWindow::setFont(bold);
-
-
-
-    //ui->label_level->setStyleSheet("QLabel{color: rgb(0, 0, 0);}");
-
     QPalette palette = ui->label_level->palette();
     palette.setColor(ui->label_level->foregroundRole(), Qt::black);
 
@@ -86,23 +75,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->label_hold->setFont(bold);
     ui->label_hold->setAlignment(Qt::AlignCenter);
 
-    //ui->label_controls->setPalette(palette);
-    //ui->label_controls->setFont(bold);
-    //ui->label_controls->setAlignment(Qt::AlignCenter);
-
     elapsedTime = new QElapsedTimer();
-
     area = new AREA(this);
-
     prepareBlocks();
-
     updateNext();
-
     tile = new TILE(this, piece.at(0));
     piece.pop_front();
     generatePiece();
-
-    Number = new number(this);
+    Score = new score(this);
     gameReady();
 }
 
@@ -117,9 +97,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     case start:
         if (event->key() == Qt::Key_Escape) {
             gameLose();
-
             gameReady();
-
             return;
         }
         if (event->key() == Qt::Key_Z){
@@ -171,13 +149,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if (event->key() == Qt::Key_K) {
             QSound::play(":/Sounds/se_game_move.wav");
             blockAction(); // (block, down) = (0, 1)
-            Number->setnum(Number->getnum() + 1);
+            Score->setScore(Score->getScore() + 1);
         }
 
         if (event->key() == Qt::Key_Down) {
             QSound::play(":/Sounds/se_game_move.wav");
             blockAction(); // (block, down) = (0, 1)
-            Number->setnum(Number->getnum() + 1);
+            Score->setScore(Score->getScore() + 1);
         }
 
         if (event->key() == Qt::Key_L){
@@ -235,7 +213,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             // hard drop
             QSound::play(":/Sounds/se_game_harddrop.wav");
             int a = tile->pos().y()/30;
-            Number->setnum(Number->getnum() + 2);
+            Score->setScore(Score->getScore() + 2);
             int res = collide(0,1);
             while (res != 1) {
                 if (!res) blockAction();
@@ -245,7 +223,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             int b = tile->pos().y()/30;
             int dist = b - a;
 
-            Number->setnum(Number->getnum() + (dist * 2));
+            Score->setScore(Score->getScore() + (dist * 2));
         }
 
         if (event->key() == Qt::Key_Shift) hold();
@@ -301,10 +279,10 @@ void MainWindow::prepareBlocks() {
 }
 
 void MainWindow::createBlock(){
-    Number->level = 1;
-    thesholdscore = 1000;
+    Score->level = 1;
+
     // reset area map
-    Number->setnum(0);
+    Score->setScore(0);
     area->clean();
     area->update();
     updateScores();
@@ -320,20 +298,9 @@ void MainWindow::Timer(){
     connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
     signalMapper->setMapping(tileTimer, 0 << 1);
     connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(blockAction()));
-    connect(tileTimer, SIGNAL(timeout()), this, SLOT(scoreCheck()));
 }
 
-void MainWindow::scoreCheck(){
-    /*
-    if (tiletime >= SMALLEST_TIME && Number->getnum() >= thesholdscore) {
-        thesholdscore += 1000;
-        tiletime -= 50;
-        tileTimer->stop();
-        tileTimer->start(tiletime);
-    } */
 
-
-}
 
 void MainWindow::changeBlock(){
     held = false;
@@ -383,9 +350,9 @@ void MainWindow::updateNext() {
 }
 
 void MainWindow::updateScores() {
-    ui->level->setText(QString::number(Number->level));
-    ui->score->setText(QString::number(Number->getnum()));
-    ui->best->setText(QString::number(Number->getHighScore()));
+    ui->level->setText(QString::number(Score->level));
+    ui->score->setText(QString::number(Score->getScore()));
+    ui->best->setText(QString::number(Score->getHighScore()));
 }
 
 
@@ -407,7 +374,7 @@ void MainWindow::blockAction(){
 
     // lose
     for (int k = 3; k < X_SPACE-1; k++) if (area->map[k][3]) {
-        if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
+        if (Score->getScore() > Score->getHighScore()) Score->setHighScore(Score->getScore());
         gameLose();
         return;
     }
@@ -439,7 +406,7 @@ void MainWindow::blockAction(){
                 reqTotalLines += (reqLines += 2);
 
                 if (linesCleared == reqTotalLines) {
-                    Number->level++;
+                    Score->level++;
                     tiletime -= 50;
                 }
             }
@@ -447,30 +414,28 @@ void MainWindow::blockAction(){
 
             switch (res) {
                 case 1:
-                    Number->setnum(Number->getnum() + 100*Number->level);
+                    Score->setScore(Score->getScore() + 100*Score->level);
                     break;
 
                 case 2:
-                    Number->setnum(Number->getnum() + 300*Number->level);
+                    Score->setScore(Score->getScore() + 300*Score->level);
                     break;
 
                 case 3:
-                    Number->setnum(Number->getnum() + 500*Number->level);
+                    Score->setScore(Score->getScore() + 500*Score->level);
                     break;
 
                 case 4:
-                    Number->setnum(Number->getnum() + 800*Number->level);
+                    Score->setScore(Score->getScore() + 800*Score->level);
                     break;
             }
-            // the more row(s) are eliminated, the larger the volumn will be.
+
 
         }
         area->update();
-        // change the block back to top
         changeBlock();
     }
     else tile->move(tile->pos().x(), tile->pos().y() + WIDTH);
-
     ui->lines->setText(QString::number(linesCleared));
 }
 
@@ -484,37 +449,7 @@ void MainWindow::gameReady()
     elapsedTime->start();
 }
 
-void MainWindow::gameLose()
-{
-    music->stop();
-    QSound::play(":/Sounds/me_game_gameover.wav");
-    if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
-    prepareBlocks();
-    tile->change(piece.at(0));
-    updateNext();
-    piece.pop_front();
 
-    generatePiece();
-
-    gamemod=lose;
-    tileTimer->stop();
-
-    QMessageBox::information(
-        nullptr,
-        "qt-tetris",
-        QString("Game Over.\nScore: %1")
-            .arg(ui->score->text())
-    );
-
-}
-
-void MainWindow::gamePause()
-{
-    gamemod=pause;
-    tileTimer->stop();
-    music->pause();
-
-}
 
 void MainWindow::gameStart()
 {
@@ -533,3 +468,33 @@ void MainWindow::gameStart()
     music->setVolume(50);
 }
 
+
+void MainWindow::gamePause()
+{
+    gamemod=pause;
+    tileTimer->stop();
+    music->pause();
+
+}
+
+void MainWindow::gameLose()
+{
+    music->stop();
+    QSound::play(":/Sounds/me_game_gameover.wav");
+    if (Score->getScore() > Score->getHighScore()) Score->setHighScore(Score->getScore());
+    prepareBlocks();
+    tile->change(piece.at(0));
+    updateNext();
+    piece.pop_front();
+    generatePiece();
+    gamemod=lose;
+    tileTimer->stop();
+
+    QMessageBox::information(
+        nullptr,
+        "qt-tetris",
+        QString("Game Over.\nScore: %1")
+            .arg(ui->score->text())
+    );
+
+}
