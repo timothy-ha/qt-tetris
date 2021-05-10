@@ -15,11 +15,10 @@ using namespace std;
 
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -31,7 +30,10 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
+    void move(int a);
+    void rotate(int a);
     void hold(bool clear = false);
+    void drop(int a);
     void updateNext();
     void updateScores();
     void prepareBlocks();
@@ -57,14 +59,22 @@ private:
     void createBlock();
     void changeBlock();
     void Timer();
+<<<<<<< HEAD
+=======
 
+>>>>>>> 80b461dbdb284b8dabbdab65722f8c78ed824f1b
     int collide(int dx, int dy);
+
     bool held;
     int holdPiece;
     int linesCleared;
-    int thesholdscore;
     int tiletime;
+<<<<<<< HEAD
+    int mode;
+
+=======
     int gamemod;
+>>>>>>> 80b461dbdb284b8dabbdab65722f8c78ed824f1b
     int time;
     int old_time = 0;
     const int WIDTH = 30;
@@ -73,13 +83,7 @@ private:
 
     QString next_src[8] = {"",":/Image/1a.png",":/Image/La.png" , ":/Image/Ja.png", ":/Image/Ta.png", ":/Image/Sa.png", ":/Image/Za.png", ":/Image/#a.png" };
 
-    enum
-    {
-        lose = 0,
-        start = 1,
-        redy = 2,
-        pause = 3
-    };
+    enum { lose = 0, start = 1, ready = 2, pause = 3 };
 };
 
 #endif

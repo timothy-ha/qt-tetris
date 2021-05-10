@@ -18,7 +18,7 @@ public:
     void flip();
     void change(int k = 0);
 
-    int kind;
+    int type;
     int rot;
     int sp[8][4];
     int getPrefix();
