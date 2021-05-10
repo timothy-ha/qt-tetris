@@ -33,6 +33,5 @@
         <file>Sounds/se_game_hold.wav</file>
         <file>Sounds/se_game_move.wav</file>
         <file>Sounds/se_game_rotate.wav</file>
-        <file>Sounds/se_game_softdrop.wav</file>
     </qresource>
 </RCC>
