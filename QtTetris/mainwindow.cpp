@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QFont bold = QFont("Roboto", 13, QFont::Bold);
     QFont font = QFont("Roboto", 13, 1);
     QPalette palette = ui->label_level->palette();
-    palette.setColor(ui->label_level->foregroundRole(), Qt::black);
+    palette.setColor(ui->label_level->foregroundRole(), Qt::blue);
 
     ui->label_next->setPalette(palette);
     ui->label_next->setFont(bold);
