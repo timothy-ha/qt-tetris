@@ -68,6 +68,8 @@ private:
     int gamemod;
     int win_width;
     int win_height;
+    int time;
+    int old_time = 0;
 
     enum
     {

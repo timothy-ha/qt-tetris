@@ -9,6 +9,8 @@
 #include <QPixmap>
 #include <QSignalMapper>
 #include <QRandomGenerator64>
+#include <QMediaPlaylist>
+#include <QMediaPlayer>
 #include <QMessageBox>
 #include <iostream>
 #define SMALLEST_TIME 150
@@ -18,6 +20,15 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QMediaPlaylist *playlist = new QMediaPlaylist();
+    //playlist->addMedia(QUrl("qrc:/sounds/backgroundmusic.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    QMediaPlayer *music = new QMediaPlayer();
+    //music->setPlaylist(playlist);
+    music->play();
+
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Regular.ttf");
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Bold.ttf");
     QFont bold = QFont("Roboto", 13, QFont::Bold);
@@ -205,7 +216,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             tile->update();
         }
 
-        if (event->key() == Qt::Key_P) gamePause();
+        if (event->key() == Qt::Key_P) {
+            old_time = time;
+
+
+            gamePause();
+        }
 
         if (event->key() == Qt::Key_Space) {
             // hard drop
@@ -371,10 +387,10 @@ int MainWindow::collide(int dx, int dy){
 
 void MainWindow::blockAction(){
 
-    int time = (int)(elapsedTime->nsecsElapsed()/1e9);
-    QString huh = QDateTime::fromTime_t(time).toUTC().toString("hh:mm:ss");
+    time = (int)(elapsedTime->nsecsElapsed()/1e9) + old_time;
+    QString time_format = QDateTime::fromTime_t(time).toUTC().toString("hh:mm:ss");
 
-    ui->time->setText(huh);
+    ui->time->setText(time_format);
 
     // lose
     for (int k = 3; k < X_SPACE-1; k++) if (area->map[k][3]) {
@@ -463,6 +479,14 @@ void MainWindow::gameLose()
 
     gamemod=lose;
     tileTimer->stop();
+
+    QMessageBox::information(
+        nullptr,
+        "qt-tetris",
+        QString("Game Over.\nScore: %1")
+            .arg(ui->score->text())
+    );
+
 }
 
 void MainWindow::gamePause()
