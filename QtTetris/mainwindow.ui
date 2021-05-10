@@ -62,7 +62,7 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="text">
-    <string>NEXT</string>
+    <string>Next</string>
    </property>
   </widget>
   <widget class="QLabel" name="next_0">

@@ -20,8 +20,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Regular.ttf");
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Bold.ttf");
-    QFont bold = QFont("Roboto", 20, QFont::Bold);
-    QFont font = QFont("Roboto", 20, 1);
+    QFont bold = QFont("Roboto", 13, QFont::Bold);
+    QFont font = QFont("Roboto", 13, 1);
     //MainWindow::setFont(bold);
 
 
