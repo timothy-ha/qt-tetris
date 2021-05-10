@@ -2,6 +2,8 @@
 #include "mainwindow.h"
 #include <ctime>
 #include <QDebug>
+#include <QDateTime>
+#include <QElapsedTimer>
 #include <QPainter>
 #include <QPixmap>
 #include <QSignalMapper>
@@ -15,6 +17,8 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    elapsedTime = new QElapsedTimer();
 
     area = new AREA(this);
 
@@ -82,7 +86,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
         }
         if (event->key() == Qt::Key_P) gamePause();
+
         if (event->key() == Qt::Key_Space) {
+            // hard drop
             int a = tile->pos().y()/30;
             Number->setnum(Number->getnum() + 2);
             int res = collide(0,1);
@@ -96,6 +102,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
             Number->setnum(Number->getnum() + (dist * 2));
         }
+
+        if (event->key() == Qt::Key_Shift) hold();
+
         break;
     case lose:
         gameReady();
@@ -111,6 +120,28 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         break;
     }
 
+}
+
+void MainWindow::hold() {
+    if (!held) {
+        if (holdPiece == 0) {
+            holdPiece = tile->kind;
+            changeBlock();
+            held = true;
+
+        } else {
+            (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
+            tile->change(holdPiece);
+            holdPiece = 0;
+            held = true;
+        }
+    }
+
+    QPixmap a(next_src[holdPiece]);
+    ui->hold->setPixmap(a);
+    ui->hold->setAlignment(Qt::AlignCenter);
+
+    //ui->hold->setText(QString::number(holdPiece));
 }
 
 void MainWindow::prepareBlocks() {
@@ -131,7 +162,7 @@ void MainWindow::createBlock(){
     updateScores();
     tileTimer = new QTimer(this);
     tiletime = 500;
-    tile->move(2*WIDTH,-4*WIDTH);
+    (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
     Timer();
 }
 
@@ -154,12 +185,12 @@ void MainWindow::scoreCheck(){
 }
 
 void MainWindow::changeBlock(){
+    held = false;
     tile->rot = 0;
     tile->change(piece.at(0));
     piece.pop_front();
     generatePiece();
-    int amount = QRandomGenerator64::global()->bounded(2, 4);
-    tile->move(amount*WIDTH,-4*WIDTH);
+    (tile->kind == 1) ? tile->move(3*WIDTH,-4*WIDTH) : tile->move(2*WIDTH,-4*WIDTH);
     updateScores();
     updateNext();
 }
@@ -217,6 +248,12 @@ int MainWindow::collide(int dx, int dy){
 }
 
 void MainWindow::blockAction(){
+
+    int time = (int)(elapsedTime->nsecsElapsed()/1e9);
+    QString huh = QDateTime::fromTime_t(time).toUTC().toString("hh:mm:ss");
+
+    ui->time->setText(huh);
+
     // lose
     for (int k = 3; k < X_SPACE-1; k++) if (area->map[k][3]) {
         if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
@@ -282,10 +319,12 @@ void MainWindow::blockAction(){
 
 void MainWindow::gameReady()
 {
+    held = false;
+    holdPiece = 0;
     linesCleared = 0;
     gamemod=redy;
     createBlock();
-
+    elapsedTime->start();
 }
 
 void MainWindow::gameLose()
@@ -300,6 +339,7 @@ void MainWindow::gameLose()
 
     gamemod=lose;
     tileTimer->stop();
+    elapsedTime->restart();
 
 }
 

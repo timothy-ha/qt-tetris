@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QElapsedTimer>
 #include <QMainWindow>
 #include <QApplication>
 #include <QMouseEvent>
@@ -31,6 +32,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
+    void hold();
     void updateNext();
     void updateScores();
     void prepareBlocks();
@@ -41,6 +43,7 @@ private slots:
 private:
     TILE *tile;
     QTimer *tileTimer;
+    QElapsedTimer *elapsedTime;
     AREA *area;
     number *Number;
     QVector<int> piece;
@@ -57,6 +60,8 @@ private:
 
 
     int collide(int dx, int dy);
+    bool held;
+    int holdPiece;
     int linesCleared;
     int thesholdscore;
     int tiletime;
