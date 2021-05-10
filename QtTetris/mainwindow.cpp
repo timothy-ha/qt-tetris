@@ -9,9 +9,11 @@
 #include <QPixmap>
 #include <QSignalMapper>
 #include <QRandomGenerator64>
-#include <QMediaPlaylist>
-#include <QMediaPlayer>
 #include <QMessageBox>
+#include <QSound>
+#include <QSoundEffect>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include <iostream>
 #define SMALLEST_TIME 150
 using namespace std;
@@ -21,13 +23,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    QMediaPlaylist *playlist = new QMediaPlaylist();
-    //playlist->addMedia(QUrl("qrc:/sounds/backgroundmusic.mp3"));
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);
 
-    QMediaPlayer *music = new QMediaPlayer();
-    //music->setPlaylist(playlist);
-    music->play();
 
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Regular.ttf");
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Bold.ttf");
@@ -127,6 +123,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             return;
         }
         if (event->key() == Qt::Key_Z){
+            QSound::play(":/Sounds/se_game_rotate.wav");
+
             tile->rotate();
             QPoint original = tile->pos();
             int prefix = tile->getPrefix();
@@ -142,6 +140,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
         if (event->key() == Qt::Key_X){
+            QSound::play(":/Sounds/se_game_rotate.wav");
+
             tile->rotate_inv();
             QPoint original = tile->pos();
             int prefix = tile->getPrefix();
@@ -157,36 +157,43 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
         if (event->key() == Qt::Key_J){
+            QSound::play(":/Sounds/se_game_move.wav");
             int res = collide(-1,0);
             if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
         }
 
         if (event->key() == Qt::Key_Left){
+            QSound::play(":/Sounds/se_game_move.wav");
             int res = collide(-1,0);
             if (!res) tile->move(tile->pos().x() - WIDTH, tile->pos().y());
         }
 
         if (event->key() == Qt::Key_K) {
+            QSound::play(":/Sounds/se_game_move.wav");
             blockAction(); // (block, down) = (0, 1)
             Number->setnum(Number->getnum() + 1);
         }
 
         if (event->key() == Qt::Key_Down) {
+            QSound::play(":/Sounds/se_game_move.wav");
             blockAction(); // (block, down) = (0, 1)
             Number->setnum(Number->getnum() + 1);
         }
 
         if (event->key() == Qt::Key_L){
+            QSound::play(":/Sounds/se_game_move.wav");
             int res = collide(1,0);
             if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
         }
 
         if (event->key() == Qt::Key_Right){
+            QSound::play(":/Sounds/se_game_move.wav");
             int res = collide(1,0);
             if (!res) tile->move(tile->pos().x() + WIDTH, tile->pos().y());
         }
 
         if (event->key() == Qt::Key_I){
+            QSound::play(":/Sounds/se_game_rotate.wav");
             tile->flip();
             QPoint original = tile->pos();
             int prefix = tile->getPrefix();
@@ -202,6 +209,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
         if (event->key() == Qt::Key_Up){
+            QSound::play(":/Sounds/se_game_rotate.wav");
             tile->flip();
             QPoint original = tile->pos();
             int prefix = tile->getPrefix();
@@ -225,6 +233,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         if (event->key() == Qt::Key_Space) {
             // hard drop
+            QSound::play(":/Sounds/se_game_harddrop.wav");
             int a = tile->pos().y()/30;
             Number->setnum(Number->getnum() + 2);
             int res = collide(0,1);
@@ -261,6 +270,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::hold(bool clear) {
     if (!clear) {
         if (!held) {
+            QSound::play(":/Sounds/se_game_hold.wav");
             if (holdPiece == 0) {
                 holdPiece = tile->kind;
                 changeBlock();
@@ -413,6 +423,7 @@ void MainWindow::blockAction(){
         int res = area->eliminate();
 
         if (res){
+            QSound::play(":/Sounds/me_game_start2.wav");
 
             linesCleared += res;
 
@@ -469,6 +480,7 @@ void MainWindow::gameReady()
 
 void MainWindow::gameLose()
 {
+    QSound::play(":/Sounds/me_game_gameover.wav");
     if (Number->getnum() > Number->getHighScore()) Number->setHighScore(Number->getnum());
     prepareBlocks();
     tile->change(piece.at(0));
@@ -502,5 +514,14 @@ void MainWindow::gameStart()
     updateNext();
     tileTimer->start(tiletime);
     elapsedTime->restart();
+
+    QMediaPlaylist *playlist = new QMediaPlaylist();
+    playlist->addMedia(QUrl("qrc:/Sounds/uih.wav"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+
+    QMediaPlayer *music = new QMediaPlayer();
+    music->setPlaylist(playlist);
+    music->play();
+    music->setVolume(50);
 }
 

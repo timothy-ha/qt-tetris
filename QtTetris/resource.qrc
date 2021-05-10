@@ -26,5 +26,12 @@
         <file>Fonts/Roboto-Regular.ttf</file>
         <file>Fonts/Roboto-Thin.ttf</file>
         <file>Fonts/Roboto-ThinItalic.ttf</file>
+        <file>Sounds/uih.wav</file>
+        <file>Sounds/me_game_gameover.wav</file>
+        <file>Sounds/me_game_start2.wav</file>
+        <file>Sounds/se_game_harddrop.wav</file>
+        <file>Sounds/se_game_hold.wav</file>
+        <file>Sounds/se_game_move.wav</file>
+        <file>Sounds/se_game_rotate.wav</file>
     </qresource>
 </RCC>
