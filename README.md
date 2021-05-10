@@ -30,8 +30,8 @@ These features are just the bare minimum while making the game, and we believe t
 * ~~Controls~~
 * ~~7-bag Randomizer~~
 * Music
-* Hold
-* Time
+* ~~Hold~~
+* ~~Time~~
 * Cleanup
 
 **Controls**
