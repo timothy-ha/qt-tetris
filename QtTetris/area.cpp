@@ -19,13 +19,12 @@ void AREA::paintEvent(QPaintEvent *) {
     }
 }
 
-int AREA::getAreaSp(int x, int y) {
-    int sp = 0;
+int AREA::getArea(int x, int y) {
+    int col = 0;
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
-            sp = (tetrisMap[x + j][y + i] != 0 ? 1 : 0) + sp * 2;
-    qDebug() << sp;
-    return sp;
+            col = (tetrisMap[x + j][y + i] != 0 ? 1 : 0) + col * 2;
+    return col;
 }
 
 int AREA::tileRemove() {

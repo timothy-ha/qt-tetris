@@ -303,7 +303,7 @@ int MainWindow::tileCollide(int change_x, int change_y){
     x = tile->pos().x()/tetrisWidth + 3 + change_x;
     y = tile->pos().y()/tetrisWidth + 4 + change_y;
     int blksp = tile->tileSpec();
-    return (blksp & area->getAreaSp(x, y)) ? 1: 0;
+    return (blksp & area->getArea(x, y)) ? 1: 0;
 }
 
 void MainWindow::tileMove() { //tile move, level, and timing

@@ -14,7 +14,7 @@ public:
     AREA(QWidget *parent = 0);
     void paintEvent(QPaintEvent *);
     int tetrisMap[14][25];
-    int getAreaSp(int, int);
+    int getArea(int, int);
     void clean();
     int tileRemove();
     ~AREA();
