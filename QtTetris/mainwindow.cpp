@@ -16,7 +16,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QFontDatabase::addApplicationFont(":/Fonts/Roboto-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/Fonts/Roboto-Regular.ttf"); //custom use of fonts.
     QFontDatabase::addApplicationFont(":/Fonts/Roboto-Bold.ttf");
     QFont bold = QFont("Roboto", 13, QFont::Bold);
     QFont font = QFont("Roboto", 13, 1);
@@ -156,7 +156,7 @@ void MainWindow::move(int a) {
 void MainWindow::rotate(int a) {
     if (a == 0) tile->flip();
     else if (a == 1) tile->rotate();
-    else if (a == 2) tile->rotate_inv();
+    else if (a == 2) tile->rotateInverse();
 
     QPoint original = tile->pos();
     int prefix = tile->getPrefix();
@@ -166,7 +166,7 @@ void MainWindow::rotate(int a) {
 
     if (tileCollide(0,0)) {
         if (a == 0) tile->flip();
-        else if (a == 1) tile->rotate_inv();
+        else if (a == 1) tile->rotateInverse();
         else if (a == 2) tile->rotate();
         tile->move(original);
     } else {
@@ -438,4 +438,5 @@ void MainWindow::gameLose() {
         QString("Game Over.\nScore: %1")
             .arg(ui->score->text())
     );
+
 }

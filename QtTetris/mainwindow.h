@@ -66,10 +66,11 @@ private:
     int mode;
     int time;
     int old_time = 0;
+
+    bool held;
     const int xPlane = 14;
     const int yPlane = 25;
     const int tetrisWidth = 30;
-    bool held;
     enum { lose = 0, start = 1, ready = 2, pause = 3 };
 
 

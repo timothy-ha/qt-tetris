@@ -14,7 +14,7 @@ public:
 
     void paintEvent(QPaintEvent *);
     void rotate();
-    void rotate_inv();
+    void rotateInverse();
     void flip();
     void changeType(int k = 0);
     int tileType;

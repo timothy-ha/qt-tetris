@@ -2,35 +2,20 @@
 #include <QDebug>
 #include <iostream>
 using namespace std;
-int WIDTH = 30;
 
 TILE::TILE(QWidget *parent, int k) : QWidget(parent)
 {
-    this->setFixedSize(WIDTH*4, WIDTH*4);
+    this->setFixedSize(120, 120);
     tileType = k;
     tileRotate = 0;
     memcpy(sp, map, sizeof(int)*32);
-}
-
-TILE::~TILE()
-{}
-
-void TILE::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    QPixmap tilePic;
-    tilePic.load(tileImages[tileType]);
-    int bp = sp[tileType-1][tileRotate];
-    for (int i = 3; i >= 0; i--)
-        for (int j = 3; j >= 0; j--, bp >>= 1)
-            if (bp & 1) painter.drawPixmap(j*WIDTH, i*WIDTH, WIDTH, WIDTH, tilePic);
 }
 
 void TILE::rotate(){
     tileRotate = (tileRotate + 1) % 4;
 }
 
-void TILE::rotate_inv(){
+void TILE::rotateInverse(){
     tileRotate = (tileRotate + 3) % 4;
 }
 
@@ -47,6 +32,18 @@ int TILE::tileSpec(){
     return sp[tileType-1][tileRotate];
 }
 
+void TILE::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    QPixmap tilePic;
+    tilePic.load(tileImages[tileType]);
+    int bp = sp[tileType-1][tileRotate];
+    for (int i = 3; i >= 0; i--)
+        for (int j = 3; j >= 0; j--, bp >>= 1)
+            if (bp & 1) painter.drawPixmap(j*30, i*30, 30, 30, tilePic);
+}
+
+
 int TILE::getPrefix(){
     int res = 4;
     int bp = sp[tileType-1][tileRotate];
@@ -57,5 +54,8 @@ int TILE::getPrefix(){
    // qDebug() << res <<endl;
     return res;
 }
+
+TILE::~TILE()
+{}
 
 
