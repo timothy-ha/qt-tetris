@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     QFont font = QFont("Roboto", 13, 1);
 
     QPalette palette = ui->label_level->palette();
-    palette.setColor(ui->label_level->foregroundRole(), Qt::blue);
+    palette.setColor(ui->label_level->foregroundRole(), Qt::black);
 
     ui->label_next->setPalette(palette);
     ui->label_next->setFont(bold);
@@ -251,7 +251,7 @@ void MainWindow::createTile() {
 
 void MainWindow::timer() {
     QSignalMapper* signalMapper = new QSignalMapper (this) ;
-    connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
+    connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(gameMap()));
     signalMapper->setMapping(tileTimer, 0 << 1);
     connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(tileMove()));
 }
@@ -326,7 +326,7 @@ void MainWindow::tileMove() {
     ui->time->setText(time_format);
 
 
-    for (int k = 3; k < xPlane-1; k++) if (area->map[k][3]) {
+    for (int k = 3; k < xPlane-1; k++) if (area->gameMap[k][3]) {
         if (Score->getScore() > Score->gethighScore()) Score->sethighScore(Score->getScore());
         gameLose();
         return;
@@ -339,7 +339,7 @@ void MainWindow::tileMove() {
 
         for (int k = 3; k >= 0; k--)
             for (int j = 3; j >= 0; j--, blksp >>= 1)
-                if (blksp & 1) area->map[x+j][y+k] = tile->tileType;
+                if (blksp & 1) area->gameMap[x+j][y+k] = tile->tileType;
          area->update();
 
         int res = area->tileRemove();
