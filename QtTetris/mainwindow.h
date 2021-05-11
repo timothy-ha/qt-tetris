@@ -35,8 +35,8 @@ private slots:
     void drop(int a);
     void updateNext();
     void updateScores();
-    void pTiles();
-    void gTile();
+    void pTiles(); //prepare tile
+    void gTile(); //generate tile
     void tileMove();
 
 private:

@@ -10,8 +10,15 @@ public:
     explicit score(QWidget *parent = 0);
     ~score();
 
+    int level;
+
     void addScore(int score) {
         gameScore += score;
+    }
+
+    int sethighScore(int n) {
+        highScore = n;
+        return highScore;
     }
 
     void resetScore() {
@@ -25,13 +32,6 @@ public:
     int gethighScore() {
         return highScore;
     }
-
-    int sethighScore(int n) {
-        highScore = n;
-        return highScore;
-    }
-
-    int level;
 
 protected:
     int highScore;

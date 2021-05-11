@@ -19,13 +19,12 @@ public:
     void changeType(int k = 0);
     int tileType;
     int tileRotate;
-    int sp[8][4];
     int getPrefix();
     int tileSpec();
 
 private:
     QString tileImages[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
-    int tetrisMap[7][4] = {
+    int tileStyle[7][4] = { //how 7 tiles are positioned (in shapes).
         {15,4369,15,4369},
         {23,785,116,547},
         {71,275,113,802},
