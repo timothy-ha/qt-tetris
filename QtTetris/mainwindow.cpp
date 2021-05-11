@@ -267,7 +267,7 @@ void MainWindow::changeTile() { //change of tiles
 
 void MainWindow::gTile() { //generate tiles (seven bag)
     if (seven_bag.empty()) {
-        for (int i = 1; i <= 7; i++) seven_bag.push_back(1);
+        for (int i = 1; i <= 7; i++) seven_bag.push_back(i);
     }
     int i = QRandomGenerator64::global()->bounded(0, seven_bag.size());
     piece.push_back(seven_bag.at(i));
