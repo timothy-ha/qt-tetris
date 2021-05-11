@@ -4,25 +4,19 @@
 using namespace std;
 int WIDTH = 30;
 
-TILE::TILE(QWidget *parent, int k) : QWidget(parent) {
+TILE::TILE(QWidget *parent, int k) : QWidget(parent)
+{
     this->setFixedSize(WIDTH*4, WIDTH*4);
     type = k;
     rot = 0;
-    int map[7][4] = {
-        {15,4369,15,4369},
-        {23,785,116,547},
-        {71,275,113,802},
-        {39,305,114,562},
-        {54,561,54,561},
-        {99,306,99,306},
-        {51,51,51,51}
-    };
     memcpy(sp, map, sizeof(int)*32);
 }
 
-TILE::~TILE() {}
+TILE::~TILE()
+{}
 
-void TILE::paintEvent(QPaintEvent *) {
+void TILE::paintEvent(QPaintEvent *)
+{
     QPainter painter(this);
     QPixmap pix;
     pix.load(src[type]);
@@ -32,23 +26,23 @@ void TILE::paintEvent(QPaintEvent *) {
             if (bp & 1) painter.drawPixmap(j*WIDTH, i*WIDTH, WIDTH, WIDTH, pix);
 }
 
-void TILE::rotate() {
+void TILE::rotate(){
     rot = (rot + 1) % 4;
 }
 
-void TILE::rotate_inv() {
+void TILE::rotate_inv(){
     rot = (rot + 3) % 4;
 }
 
-void TILE::flip() {
+void TILE::flip(){
     rot = (rot + 2) % 4;
 }
 
-void TILE::change(int k) {
+void TILE::change(int k){
     type = k;
 }
 
-int TILE::getPrefix() {
+int TILE::getPrefix(){
     int res = 4;
     int bp = sp[type-1][rot];
     bp |= bp >> 4;
@@ -58,6 +52,6 @@ int TILE::getPrefix() {
     return res;
 }
 
-int TILE::getBlockSp() {
+int TILE::getBlockSp(){
     return sp[type-1][rot];
 }

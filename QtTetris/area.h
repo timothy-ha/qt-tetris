@@ -1,32 +1,28 @@
 #ifndef AREA_H
 #define AREA_H
-
 #include <QWidget>
 #include <QPainter>
 #include <QPixmap>
-
-#define WIDTH 30
-#define NUM_X 10
-#define NUM_Y 20
-#define X_SPACE (NUM_X+3+1)
-#define Y_SPACE (NUM_Y+4+1)
 
 class AREA : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit AREA(QWidget *parent = 0);
+    QString src[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
+    AREA(QWidget *parent = 0);
     void paintEvent(QPaintEvent *);
-    int map[X_SPACE][Y_SPACE];
+    int map[14][25];
     int getAreaSp(int, int);
     void clean();
-    int eliminate();
-
+    int tileRemove();
     ~AREA();
+
 private:
-    QString src[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
     void reduce(int y = 0);
+    const int xPlane = 14;
+    const int yPlane = 25;
+    const int tetrisWidth = 30;
 signals:
 
 public slots:

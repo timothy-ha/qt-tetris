@@ -19,12 +19,12 @@ CONFIG+=sdk_no_version_check
 SOURCES += main.cpp\
         mainwindow.cpp \
     area.cpp \
-    number.cpp \
+    score.cpp \
     tile.cpp
 
 HEADERS  += mainwindow.h \
     area.h \
-    number.h \
+    score.h \
     tile.h
 
 RESOURCES += \

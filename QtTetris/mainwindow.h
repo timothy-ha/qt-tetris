@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <tile.h>
+#include <area.h>
+#include "score.h"
 #include <QElapsedTimer>
 #include <QMainWindow>
 #include <QApplication>
@@ -8,14 +11,7 @@
 #include <QVector>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
-#include <tile.h>
-#include <area.h>
-#include "number.h"
-
-#define WIDTH 30
-#define NUM_X 10
-#define NUM_Y 20
-#define PADDING 5
+using namespace std;
 
 namespace Ui {
     class MainWindow;
@@ -39,9 +35,9 @@ private slots:
     void drop(int a);
     void updateNext();
     void updateScores();
-    void prepareBlocks();
-    void generatePiece();
-    void blockAction();
+    void pTiles();
+    void gTile();
+    void tileMove();
 
 private:
     TILE *tile;
@@ -50,7 +46,7 @@ private:
     QMediaPlaylist *playlist;
     QMediaPlayer *music;
     AREA *area;
-    number *Number;
+    score *Score;
     QVector<int> piece;
     QVector<int> seven_bag;
     Ui::MainWindow* ui;
@@ -59,21 +55,24 @@ private:
     void gameStart();
     void gameReady();
     void gamePause();
-    void createBlock();
-    void changeBlock();
-    void Timer();
-    int collide(int dx, int dy);
+    void createTile();
+    void changeTile();
+    void timer();
 
-    bool held;
+    int tileCollide(int x, int y);
     int holdPiece;
     int linesCleared;
     int tiletime;
     int mode;
-
     int time;
     int old_time = 0;
-
+    const int xPlane = 14;
+    const int yPlane = 25;
+    const int tetrisWidth = 30;
+    bool held;
     enum { lose = 0, start = 1, ready = 2, pause = 3 };
+
+
 };
 
 #endif

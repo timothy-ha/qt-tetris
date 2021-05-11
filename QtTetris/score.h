@@ -1,5 +1,5 @@
-#ifndef NUMBER_H
-#define NUMBER_H
+#ifndef SCORE_H
+#define SCORE_H
 #include <QWidget>
 #include <QTimer>
 
@@ -8,18 +8,18 @@ class score : public QWidget
     Q_OBJECT
 public:
     explicit score(QWidget *parent = 0);
-    ~number();
+    ~score();
 
-    void addScore(int n) {
-        score += n;
+    void addScore(int score) {
+        gameScore += score;
     }
 
     void resetScore() {
-        score = 0;
+        gameScore = 0;
     }
 
     int getScore() {
-        return score;
+        return gameScore;
     }
 
     int gethighScore() {
@@ -35,7 +35,7 @@ public:
 
 protected:
     int highScore;
-    int score;
+    int gameScore;
 };
 
-#endif // NUMBER_H
+#endif // SCORE_H
