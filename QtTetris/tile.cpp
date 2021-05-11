@@ -7,7 +7,7 @@ int WIDTH = 30;
 TILE::TILE(QWidget *parent, int k) : QWidget(parent)
 {
     this->setFixedSize(WIDTH*4, WIDTH*4);
-    type = k;
+    tileType = k;
     rot = 0;
     memcpy(sp, map, sizeof(int)*32);
 }
@@ -19,8 +19,8 @@ void TILE::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     QPixmap pix;
-    pix.load(src[type]);
-    int bp = sp[type-1][rot];
+    pix.load(src[tileType]);
+    int bp = sp[tileType-1][rot];
     for (int i = 3; i >= 0; i--)
         for (int j = 3; j >= 0; j--, bp >>= 1)
             if (bp & 1) painter.drawPixmap(j*WIDTH, i*WIDTH, WIDTH, WIDTH, pix);
@@ -39,12 +39,12 @@ void TILE::flip(){
 }
 
 void TILE::change(int k){
-    type = k;
+    tileType = k;
 }
 
 int TILE::getPrefix(){
     int res = 4;
-    int bp = sp[type-1][rot];
+    int bp = sp[tileType-1][rot];
     bp |= bp >> 4;
     bp |= bp >> 8;
     bp &= 15;
@@ -53,5 +53,5 @@ int TILE::getPrefix(){
 }
 
 int TILE::getBlockSp(){
-    return sp[type-1][rot];
+    return sp[tileType-1][rot];
 }

@@ -182,12 +182,12 @@ void MainWindow::hold(bool clear) {
         if (!held) {
             QSound::play(":/Sounds/se_game_hold.wav");
             if (holdPiece == 0) {
-                holdPiece = tile->type;
+                holdPiece = tile->tileType;
                 changeTile();
             } else {
-                (tile->type == 1) ? tile->move(3*tetrisWidth,-4*tetrisWidth) : tile->move(2*tetrisWidth,-4*tetrisWidth);
+                (tile->tileType == 1) ? tile->move(3*tetrisWidth,-4*tetrisWidth) : tile->move(2*tetrisWidth,-4*tetrisWidth);
                 int temp = holdPiece;
-                holdPiece = tile->type;
+                holdPiece = tile->tileType;
                 tile->change(temp);
             }
             held = true;
@@ -205,7 +205,7 @@ void MainWindow::hold(bool clear) {
 void MainWindow::drop(int a) {
     switch (a) {
         case 0:
-            QSound::play(":/Sounds/se_game_softdrop.wav"); //sounds
+            QSound::play(":/Sounds/se_game_softdrop.wav"); //sound
             tileMove(); // (block, down) = (0, 1)
             Score->addScore(1);
             break;
@@ -244,7 +244,7 @@ void MainWindow::createTile() {
     updateScores();
     tileTimer = new QTimer(this);
     tiletime = 500;
-    (tile->type == 1) ? tile->move(3*tetrisWidth,-4*tetrisWidth) : tile->move(2*tetrisWidth,-4*tetrisWidth);
+    (tile->tileType == 1) ? tile->move(3*tetrisWidth,-4*tetrisWidth) : tile->move(2*tetrisWidth,-4*tetrisWidth);
     timer();
 }
 
@@ -262,7 +262,7 @@ void MainWindow::changeTile() {
     tile->change(piece.at(0));
     piece.pop_front();
     gTile();
-    (tile->type == 1) ? tile->move(3*tetrisWidth,-4*tetrisWidth) : tile->move(2*tetrisWidth,-4*tetrisWidth);
+    (tile->tileType == 1) ? tile->move(3*tetrisWidth,-4*tetrisWidth) : tile->move(2*tetrisWidth,-4*tetrisWidth);
     updateScores();
     updateNext();
 }
@@ -339,7 +339,7 @@ void MainWindow::tileMove() {
 
         for (int k = 3; k >= 0; k--)
             for (int j = 3; j >= 0; j--, blksp >>= 1)
-                if (blksp & 1) area->map[x+j][y+k] = tile->type;
+                if (blksp & 1) area->map[x+j][y+k] = tile->tileType;
          area->update();
 
         int res = area->tileRemove();
