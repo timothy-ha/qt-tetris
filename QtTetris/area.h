@@ -9,7 +9,7 @@ class AREA : public QWidget
     Q_OBJECT
 
 public:
-    QString src[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
+    QString tileImages[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
     AREA(QWidget *parent = 0);
     void paintEvent(QPaintEvent *);
     int map[14][25];

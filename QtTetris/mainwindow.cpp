@@ -188,7 +188,7 @@ void MainWindow::hold(bool clear) {
                 (tile->tileType == 1) ? tile->move(3*tetrisWidth,-4*tetrisWidth) : tile->move(2*tetrisWidth,-4*tetrisWidth);
                 int temp = holdPiece;
                 holdPiece = tile->tileType;
-                tile->change(temp);
+                tile->changeType(temp);
             }
             held = true;
         }
@@ -258,8 +258,8 @@ void MainWindow::timer() {
 
 void MainWindow::changeTile() {
     held = false;
-    tile->rot = 0;
-    tile->change(piece.at(0));
+    tile->tileRotate = 0;
+    tile->changeType(piece.at(0));
     piece.pop_front();
     gTile();
     (tile->tileType == 1) ? tile->move(3*tetrisWidth,-4*tetrisWidth) : tile->move(2*tetrisWidth,-4*tetrisWidth);
@@ -315,7 +315,7 @@ int MainWindow::tileCollide(int dx, int dy){
     int x, y;
     x = tile->pos().x()/tetrisWidth + 3 + dx;
     y = tile->pos().y()/tetrisWidth + 4 + dy;
-    int blksp = tile->getBlockSp(), areasp = area->getAreaSp(x, y);
+    int blksp = tile->tileSpec(), areasp = area->getAreaSp(x, y);
     return (blksp & areasp) ? 1: 0;
 }
 
@@ -333,7 +333,7 @@ void MainWindow::tileMove() {
     }
 
     if (tileCollide(0,1) == 1) {
-        int x, y, blksp = tile->getBlockSp();
+        int x, y, blksp = tile->tileSpec();
         x = tile->pos().x()/tetrisWidth + 3;
         y = tile->pos().y()/tetrisWidth + 4;
 
@@ -425,7 +425,7 @@ void MainWindow::gameLose() {
     if (Score->getScore() > Score->gethighScore()) Score->sethighScore(Score->getScore());
 
     pTiles();
-    tile->change(piece.at(0));
+    tile->changeType(piece.at(0));
     updateNext();
     piece.pop_front();
     gTile();

@@ -16,15 +16,15 @@ public:
     void rotate();
     void rotate_inv();
     void flip();
-    void change(int k = 0);
+    void changeType(int k = 0);
     int tileType;
-    int rot;
+    int tileRotate;
     int sp[8][4];
     int getPrefix();
-    int getBlockSp();
+    int tileSpec();
 
 private:
-    QString src[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
+    QString tileImages[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
     int map[7][4] = {
         {15,4369,15,4369},
         {23,785,116,547},
