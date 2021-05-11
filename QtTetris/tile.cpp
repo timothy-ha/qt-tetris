@@ -40,16 +40,12 @@ void TILE::paintEvent(QPaintEvent *)
             if (bp & 1) paint.drawPixmap(j*30, i*30, 30, 30, tilePic);
 }
 
-
 int TILE::getPrefix(){
-    int res = 4;
-    int bp = tileStyle[tileType-1][tileRotate];
-    bp |= bp >> 4;
-    bp |= bp >> 8;
-    bp &= 15;
-    for (; bp; bp >>= 1, res--);
-   // qDebug() << res <<endl;
-    return res;
+    int len = 4;
+    int tp = tileStyle[tileType-1][tileRotate];
+    tp |= tp >> 4; tp |= tp >> 8; tp &= 15;
+    for (; tp; tp >>= 1, len--); //looping
+    return len;
 }
 
 TILE::~TILE()
