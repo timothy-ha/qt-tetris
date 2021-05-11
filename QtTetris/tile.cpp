@@ -9,7 +9,7 @@ TILE::TILE(QWidget *parent, int k) : QWidget(parent)
     this->setFixedSize(WIDTH*4, WIDTH*4);
     tileType = k;
     tileRotate = 0;
-    memcpy(sp, gameMap, sizeof(int)*32);
+    memcpy(sp, map, sizeof(int)*32);
 }
 
 TILE::~TILE()
@@ -54,7 +54,7 @@ int TILE::getPrefix(){
     bp |= bp >> 8;
     bp &= 15;
     for (; bp; bp >>= 1, res--);
-    qDebug() << res <<endl;
+   // qDebug() << res <<endl;
     return res;
 }
 

@@ -12,7 +12,7 @@ public:
     QString tileImages[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
     AREA(QWidget *parent = 0);
     void paintEvent(QPaintEvent *);
-    int gameMap[14][25];
+    int map[14][25];
     int getAreaSp(int, int);
     void clean();
     int tileRemove();

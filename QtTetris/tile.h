@@ -25,7 +25,7 @@ public:
 
 private:
     QString tileImages[8] = {"",":/Image/1.png",":/Image/L.png" , ":/Image/J.png", ":/Image/T.png", ":/Image/S.png", ":/Image/Z.png", ":/Image/#.png" };
-    int gameMap[7][4] = {
+    int map[7][4] = {
         {15,4369,15,4369},
         {23,785,116,547},
         {71,275,113,802},
