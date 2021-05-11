@@ -1,10 +1,5 @@
 # qt-tetris
 
-<p align="center">
-CSE 165: Project Proposal || Game: Tetris
-</p>
-<br/>
-
 **Team Members**: Aayush Koirala, Timothy Ha, and Elaine Huang<br/>
 
 **Summary of what we plan to do:** <br/>
@@ -15,9 +10,9 @@ We plan to add many features such as our unique game sounds, control the tile mo
 These features are just the bare minimum while making the game, and we believe that we will add a lot more features as new ideas come to our mind. We plan to work together by using GitHub.
 
 **Team member roles:**<br/>
--**Timothy Ha:** Timothy will work on dealing with tile collision, calculation of scores (points multiplier as well) & game time, and implementation of unique textures for each tiles within the game.<br/>
+* **Timothy Ha:** Timothy will work on dealing with tile collision, calculation of scores (points multiplier as well) & game time, and implementation of unique textures for each tiles within the game.<br/>
 
--**Aayush Koirala**: Aayush will deal with implementation of mouse and keyboard inputs. Aayush will also work on implementation of unique game sounds and hold section for the tiles in the game.<br/>
+* **Aayush Koirala**: Aayush will deal with implementation of mouse and keyboard inputs. Aayush will also work on implementation of unique game sounds and hold section for the tiles in the game.<br/>
 
 -**Elaine Huang:** Elaine will work on adding new game mode such as where the game randomly places a unique tile on the "gameMap". Elaine will also work on incoming tile selection, beautifying the game window, and extensive game testing to make sure bugs are reported to other members and fixed as well.<br/>
 
@@ -29,22 +24,24 @@ These features are just the bare minimum while making the game, and we believe t
 * ~~Stylesheet~~
 * ~~Controls~~
 * ~~7-bag Randomizer~~
-* Music
+* ~~Music~~
 * ~~Hold~~
 * ~~Time~~
+* Piece Trajectory
 * Cleanup
 
 **Controls**
 | Key      | Action |
 | -------- | ------ |
 | any key  | start  |
-| esc      | stop    |
-| z        | rotate left   |
+| esc      | stop   |
+| z        | rotate left  |
 | x        | rotate right |
-| j   | move left    |
-| l   | move right   |
-| k   | drop         |
-| space   | hard drop  |
+| j / left_arrow  | move left |
+| l / right_arrow | move right |
+| k / down_arrow  | drop |
+| i / up_arrow    | flip |
+| space | hard drop  |
 | p | pause |
 
 
