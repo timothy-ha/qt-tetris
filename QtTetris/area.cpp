@@ -1,6 +1,4 @@
 #include "area.h"
-#include <iostream>
-#include "QDebug"
 using namespace std;
 
 AREA::AREA(QWidget *parent) : QWidget(parent) {
@@ -13,7 +11,6 @@ int AREA::getAreaSp(int x, int y) {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             sp = sp * 2 + (map[x + j][y + i] != 0 ? 1 : 0);
-     //qDebug() << sp <<endl;
     return sp;
 }
 
@@ -28,12 +25,6 @@ void AREA::paintEvent(QPaintEvent *) {
             }
         }
     }
-}
-
-void AREA::clean() {
-    for (int i = 0; i < xPlane; i++)
-        for (int j = 0; j < yPlane; j++)
-            map[i][j] = i < 3 || i == xPlane - 1 || j == yPlane - 1;
 }
 
 int AREA::tileRemove() {
@@ -54,6 +45,12 @@ void AREA::reduce(int y) {
     for (int j = y; j >= 4; j--)
         for (int i = 3; i < xPlane - 1; i++)
             map[i][j] = map[i][j - 1];
+}
+
+void AREA::clean() {
+    for (int i = 0; i < xPlane; i++)
+        for (int j = 0; j < yPlane; j++)
+            map[i][j] = i < 3 || i == xPlane - 1 || j == yPlane - 1;
 }
 
 AREA::~AREA() {}
