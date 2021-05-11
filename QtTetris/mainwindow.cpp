@@ -335,15 +335,19 @@ void MainWindow::tileMove() { //tile move, level, and timing
             linesCleared += res;
             int reqLines = 0;
             int reqTotalLines = 0;
+            QVector<int> levelReq;
 
-            for (int i = 0; i < 12; i++) {
+            for (int i = 0; i < 50; i++) {
                 if (i % 10 == 0) reqLines += 1;
 
                 reqTotalLines += (reqLines += 2);
 
-                if (linesCleared == reqTotalLines) {
+                levelReq.push_back(reqTotalLines);
+
+                if (linesCleared >= levelReq[Score->level - 1]) {
                     Score->level++;
                     tiletime -= 50;
+                    tileTimer->setInterval(tiletime);
                 }
             }
 
