@@ -326,7 +326,7 @@ void MainWindow::tileMove() {
     ui->time->setText(time_format);
 
 
-    for (int k = 3; k < xPlane-1; k++) if (area->map[k][3]) {
+    for (int k = 3; k < xPlane-1; k++) if (area->tetrisMap[k][3]) {
         if (Score->getScore() > Score->gethighScore()) Score->sethighScore(Score->getScore());
         gameLose();
         return;
@@ -339,7 +339,7 @@ void MainWindow::tileMove() {
 
         for (int k = 3; k >= 0; k--)
             for (int j = 3; j >= 0; j--, blksp >>= 1)
-                if (blksp & 1) area->map[x+j][y+k] = tile->tileType;
+                if (blksp & 1) area->tetrisMap[x+j][y+k] = tile->tileType;
          area->update();
 
         int res = area->tileRemove();

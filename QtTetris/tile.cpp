@@ -8,7 +8,7 @@ TILE::TILE(QWidget *parent, int k) : QWidget(parent)
     this->setFixedSize(120, 120);
     tileType = k;
     tileRotate = 0;
-    memcpy(sp, map, sizeof(int)*32);
+    memcpy(sp, tetrisMap, sizeof(int)*32);
 }
 
 void TILE::rotate(){
