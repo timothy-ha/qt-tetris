@@ -200,14 +200,14 @@ void MainWindow::drop(int a) { //drop (Fall straight down)
             break;
         case 1:
             int a = tile->pos().y()/30;
-            int res = tileCollide(0,1);
-            if (!res)  QSound::play(":/Sounds/se_game_harddrop.wav");
+            int drop = tileCollide(0,1);
+            if (!drop)  QSound::play(":/Sounds/se_game_harddrop.wav");
 
-            while (res != 1) {
-                if (!res) {
+            while (drop != 1) {
+                if (!drop) {
                     tileMove();
                 }
-                res = tileCollide(0,1);
+                drop = tileCollide(0,1);
             }
 
             int b = tile->pos().y()/30;
