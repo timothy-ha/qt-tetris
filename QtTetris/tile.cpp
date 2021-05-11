@@ -1,6 +1,4 @@
 #include "tile.h"
-#include <QDebug>
-#include <iostream>
 using namespace std;
 
 TILE::TILE(QWidget *parent, int type) : QWidget(parent)
@@ -27,8 +25,7 @@ void TILE::changeType(int type){
 }
 
 int TILE::tileSpec(){
-    //spec of tile as we rotate
-    return tileStyle[tileType-1][tileRotate];
+    return tileStyle[tileType-1][tileRotate];  //spec of tile as we rotate
 }
 
 void TILE::paintEvent(QPaintEvent *)
@@ -37,7 +34,8 @@ void TILE::paintEvent(QPaintEvent *)
     QPixmap tilePic;
     tilePic.load(tileImages[tileType]);
     int bp = tileStyle[tileType-1][tileRotate];
-    for (int i = 3; i >= 0; i--)
+
+    for (int i = 3; i >= 0; i--) //painting the tiles
         for (int j = 3; j >= 0; j--, bp >>= 1)
             if (bp & 1) painter.drawPixmap(j*30, i*30, 30, 30, tilePic);
 }

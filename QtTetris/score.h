@@ -2,6 +2,7 @@
 #define SCORE_H
 #include <QWidget>
 #include <QTimer>
+#include <QDebug>
 
 class score : public QWidget
 {

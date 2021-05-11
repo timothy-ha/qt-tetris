@@ -1,17 +1,6 @@
 #include "ui_mainwindow.h"
 #include "mainwindow.h"
-#include <QSignalMapper>
-#include <QRandomGenerator64>
-#include <QMessageBox>
-#include <QSound>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
-#include <QDebug>
-#include <QDateTime>
-#include <QElapsedTimer>
-#include <QFontDatabase>
-#include <QPainter>
-#include <QPixmap>
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -153,7 +142,7 @@ void MainWindow::move(int a) {
     }
 }
 
-void MainWindow::rotate(int a) {
+void MainWindow::rotate(int a) { //tile rotation
     if (a == 0) tile->flip();
     else if (a == 1) tile->rotate();
     else if (a == 2) tile->rotateInverse();
@@ -177,7 +166,7 @@ void MainWindow::rotate(int a) {
     tile->update();
 }
 
-void MainWindow::hold(bool clear) {
+void MainWindow::hold(bool clear) { //hold feature
     if (!clear) {
         if (!held) {
             QSound::play(":/Sounds/se_game_hold.wav");
@@ -202,11 +191,11 @@ void MainWindow::hold(bool clear) {
 
 }
 
-void MainWindow::drop(int a) {
+void MainWindow::drop(int a) { //drop (Fall straight down)
     switch (a) {
         case 0:
             QSound::play(":/Sounds/se_game_softdrop.wav"); //sound
-            tileMove(); // (block, down) = (0, 1)
+            tileMove();
             Score->addScore(1);
             break;
         case 1:
@@ -228,7 +217,7 @@ void MainWindow::drop(int a) {
     }
 }
 
-void MainWindow::pTiles() {
+void MainWindow::pTiles() { //prepare tiles
     seven_bag.clear();
     piece.clear();
     for (int i = 0; i < 5; i++) {
@@ -236,7 +225,7 @@ void MainWindow::pTiles() {
     }
 }
 
-void MainWindow::createTile() {
+void MainWindow::createTile() { //creation of tiles
     Score->level = 1;
     Score->resetScore();
     area->clean();
@@ -256,7 +245,7 @@ void MainWindow::timer() {
     connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(tileMove()));
 }
 
-void MainWindow::changeTile() {
+void MainWindow::changeTile() { //change of tiles
     held = false;
     tile->tileRotate = 0;
     tile->changeType(piece.at(0));
@@ -267,7 +256,7 @@ void MainWindow::changeTile() {
     updateNext();
 }
 
-void MainWindow::gTile() {
+void MainWindow::gTile() { //generate tiles (seven bag)
     if (seven_bag.empty()) {
         for (int i = 1; i <= 7; i++) {
             seven_bag.push_back(i);
@@ -278,7 +267,7 @@ void MainWindow::gTile() {
     seven_bag.erase(seven_bag.begin() + i);
 }
 
-void MainWindow::updateNext() {
+void MainWindow::updateNext() { //updating hold
     ui->label_next->setAlignment(Qt::AlignCenter);
 
     QPixmap a(next_src[piece.at(0)]);
@@ -303,23 +292,22 @@ void MainWindow::updateNext() {
     ui->next_4->setAlignment(Qt::AlignCenter);
 }
 
-void MainWindow::updateScores() {
+void MainWindow::updateScores() { //score update
     ui->level->setText(QString::number(Score->level));
     ui->score->setText(QString::number(Score->getScore()));
     ui->best->setText(QString::number(Score->gethighScore()));
 }
 
 
-int MainWindow::tileCollide(int dx, int dy){
-    // block1 and area
+int MainWindow::tileCollide(int change_x, int change_y){
     int x, y;
-    x = tile->pos().x()/tetrisWidth + 3 + dx;
-    y = tile->pos().y()/tetrisWidth + 4 + dy;
+    x = tile->pos().x()/tetrisWidth + 3 + change_x;
+    y = tile->pos().y()/tetrisWidth + 4 + change_y;
     int blksp = tile->tileSpec(), areasp = area->getAreaSp(x, y);
     return (blksp & areasp) ? 1: 0;
 }
 
-void MainWindow::tileMove() {
+void MainWindow::tileMove() { //tile move, level, and timing
     time = (int)(elapsedTime->nsecsElapsed()/1e9) + old_time;
     QString time_format = QDateTime::fromTime_t(time).toUTC().toString("hh:mm:ss");
 

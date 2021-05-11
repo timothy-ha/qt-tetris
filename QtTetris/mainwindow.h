@@ -6,11 +6,21 @@
 #include "score.h"
 #include <QElapsedTimer>
 #include <QMainWindow>
-#include <QApplication>
 #include <QMouseEvent>
 #include <QVector>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
+#include <QSignalMapper>
+#include <QRandomGenerator64>
+#include <QMessageBox>
+#include <QSound>
+#include <QDateTime>
+#include <QElapsedTimer>
+#include <QFontDatabase>
+#include <QPainter>
+#include <QPixmap>
+#include <QDebug>
+
 using namespace std;
 
 namespace Ui {
@@ -35,7 +45,7 @@ private slots:
     void drop(int a);
     void updateNext();
     void updateScores();
-    void pTiles(); //prepare tile
+    void pTiles(); //prepare tiles
     void gTile(); //generate tile
     void tileMove();
 

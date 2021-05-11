@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QPixmap>
+#include <QDebug>
 
 class TILE : public QWidget
 {

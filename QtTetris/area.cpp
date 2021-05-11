@@ -11,6 +11,7 @@ int AREA::getAreaSp(int x, int y) {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             sp = sp * 2 + (tetrisMap[x + j][y + i] != 0 ? 1 : 0);
+    qDebug() <<sp;
     return sp;
 }
 
