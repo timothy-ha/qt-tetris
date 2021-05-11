@@ -16,13 +16,13 @@ int AREA::getAreaSp(int x, int y) {
 }
 
 void AREA::paintEvent(QPaintEvent *) {
-    QPainter painter(this);
+    QPainter paint(this);
     QPixmap tilePic;
     for (int i = 3; i < xPlane - 1; i++) {
         for (int j = 4; j < yPlane - 1; j++) {
             if (tetrisMap[i][j]) {
                 tilePic.load(tileImages[tetrisMap[i][j]]);
-                painter.drawPixmap((i - 3) * tetrisWidth, (j - 4) * tetrisWidth, tetrisWidth, tetrisWidth, tilePic);
+                paint.drawPixmap((i - 3) * tetrisWidth, (j - 4) * tetrisWidth, tetrisWidth, tetrisWidth, tilePic);
             }
         }
     }

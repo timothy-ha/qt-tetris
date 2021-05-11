@@ -30,14 +30,14 @@ int TILE::tileSpec(){
 
 void TILE::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
+    QPainter paint(this);
     QPixmap tilePic;
     tilePic.load(tileImages[tileType]);
     int bp = tileStyle[tileType-1][tileRotate];
 
     for (int i = 3; i >= 0; i--) //painting the tiles
         for (int j = 3; j >= 0; j--, bp >>= 1)
-            if (bp & 1) painter.drawPixmap(j*30, i*30, 30, 30, tilePic);
+            if (bp & 1) paint.drawPixmap(j*30, i*30, 30, 30, tilePic);
 }
 
 
