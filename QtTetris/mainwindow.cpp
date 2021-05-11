@@ -63,6 +63,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     elapsedTime = new QElapsedTimer();
     area = new AREA(this);
 
+
+    levelThreshold();
     pTiles();
     updateNext();
 
@@ -131,6 +133,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
             gameStart();
             break;
         }
+}
+
+void MainWindow::levelThreshold() {
+    int reqLines = 0;
+    int reqTotalLines = 0;
+
+    for (int i = 0; i < 100; i++) {
+        if (i % 10 == 0) reqLines += 1;
+        reqTotalLines += (reqLines += 2);
+        levelReq.push_back(reqTotalLines);
+    }
 }
 
 void MainWindow::move(int a) { //move
@@ -218,9 +231,7 @@ void MainWindow::drop(int a) { //drop (Fall straight down)
 void MainWindow::pTiles() { //prepare tiles
     seven_bag.clear();
     piece.clear();
-    for (int i = 0; i < 5; i++) {
-        gTile();
-    }
+    for (int i = 0; i < 5; i++) gTile();
 }
 
 void MainWindow::createTile() { //creation of tiles
@@ -256,9 +267,7 @@ void MainWindow::changeTile() { //change of tiles
 
 void MainWindow::gTile() { //generate tiles (seven bag)
     if (seven_bag.empty()) {
-        for (int i = 1; i <= 7; i++) {
-            seven_bag.push_back(i);
-        }
+        for (int i = 1; i <= 7; i++) seven_bag.push_back(1);
     }
     int i = QRandomGenerator64::global()->bounded(0, seven_bag.size());
     piece.push_back(seven_bag.at(i));
@@ -326,29 +335,19 @@ void MainWindow::tileMove() { //tile move, level, and timing
         for (int k = 3; k >= 0; k--)
             for (int j = 3; j >= 0; j--, blksp >>= 1)
                 if (blksp & 1) area->tetrisMap[x+j][y+k] = tile->tileType;
-         area->update();
+        area->update();
 
         int res = area->tileRemove();
 
         if (res) {
             QSound::play(":/Sounds/me_game_start2.wav");
+
             linesCleared += res;
-            int reqLines = 0;
-            int reqTotalLines = 0;
-            QVector<int> levelReq;
 
-            for (int i = 0; i < 50; i++) {
-                if (i % 10 == 0) reqLines += 1;
-
-                reqTotalLines += (reqLines += 2);
-
-                levelReq.push_back(reqTotalLines);
-
-                if (linesCleared >= levelReq[Score->level - 1]) {
-                    Score->level++;
-                    tiletime -= 50;
-                    tileTimer->setInterval(tiletime);
-                }
+            if (linesCleared >= levelReq[Score->level - 1]) {
+                Score->level++;
+                tiletime -= 50;
+                tileTimer->setInterval(tiletime);
             }
 
             switch (res) {
@@ -428,5 +427,4 @@ void MainWindow::gameLose() {
         QString("Game Over.\nScore: %1")
             .arg(ui->score->text())
     );
-
 }

@@ -39,6 +39,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private slots:
+    void levelThreshold();
     void move(int a);
     void rotate(int a);
     void hold(bool clear = false);
@@ -59,6 +60,7 @@ private:
     score *Score;
     QVector<int> piece;
     QVector<int> seven_bag;
+    QVector<int> levelReq;
     Ui::MainWindow* ui;
 
     void gameLose();
