@@ -6,26 +6,26 @@ AREA::AREA(QWidget *parent) : QWidget(parent) {
     clean();
 }
 
-int AREA::getAreaSp(int x, int y) {
-    int sp = 0;
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            sp = sp * 2 + (tetrisMap[x + j][y + i] != 0 ? 1 : 0);
-
-    return sp;
-}
-
 void AREA::paintEvent(QPaintEvent *) {
     QPainter paint(this);
     QPixmap tilePic;
     for (int i = 3; i < xPlane - 1; i++) {
         for (int j = 4; j < yPlane - 1; j++) {
             if (tetrisMap[i][j]) {
-                tilePic.load(tileImages[tetrisMap[i][j]]);
+                tilePic.load(tileImages[tetrisMap[i][j]]); //loading tile
                 paint.drawPixmap((i - 3) * tetrisWidth, (j - 4) * tetrisWidth, tetrisWidth, tetrisWidth, tilePic);
             }
         }
     }
+}
+
+int AREA::getAreaSp(int x, int y) {
+    int sp = 0;
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            sp = (tetrisMap[x + j][y + i] != 0 ? 1 : 0) + sp * 2;
+    qDebug() << sp;
+    return sp;
 }
 
 int AREA::tileRemove() {
@@ -51,7 +51,7 @@ void AREA::reduce(int y) {
 void AREA::clean() {
     for (int i = 0; i < xPlane; i++)
         for (int j = 0; j < yPlane; j++)
-            tetrisMap[i][j] = i < 3 || i == xPlane - 1 || j == yPlane - 1;
+            tetrisMap[i][j] = i < 3 || j == yPlane - 1 || i == xPlane - 1;
 }
 
 AREA::~AREA() {}

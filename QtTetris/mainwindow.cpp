@@ -133,7 +133,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         }
 }
 
-void MainWindow::move(int a) {
+void MainWindow::move(int a) { //move
     int res = tileCollide(a,0);
     if (!res) {
         QSound::play(":/Sounds/se_game_move.wav");
@@ -237,7 +237,7 @@ void MainWindow::createTile() { //creation of tiles
 }
 
 
-void MainWindow::timer() {
+void MainWindow::timer() { //timer
     QSignalMapper* signalMapper = new QSignalMapper (this) ;
     connect(tileTimer, SIGNAL(timeout()), signalMapper, SLOT(map()));
     signalMapper->setMapping(tileTimer, 0 << 1);
@@ -302,8 +302,8 @@ int MainWindow::tileCollide(int change_x, int change_y){
     int x, y;
     x = tile->pos().x()/tetrisWidth + 3 + change_x;
     y = tile->pos().y()/tetrisWidth + 4 + change_y;
-    int blksp = tile->tileSpec(), areasp = area->getAreaSp(x, y);
-    return (blksp & areasp) ? 1: 0;
+    int blksp = tile->tileSpec();
+    return (blksp & area->getAreaSp(x, y)) ? 1: 0;
 }
 
 void MainWindow::tileMove() { //tile move, level, and timing
