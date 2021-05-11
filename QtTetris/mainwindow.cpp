@@ -148,9 +148,8 @@ void MainWindow::rotate(int a) { //tile rotation
 
     QPoint original = tile->pos();
     int prefix = tile->getPrefix();
-    // revert
 
-    if (tile->pos().x() < (-prefix)*tetrisWidth) tile->move((-prefix)*tetrisWidth, tile->pos().y()); // if tileCollide with block revert
+    if (tile->pos().x() < (-prefix)*tetrisWidth) tile->move((-prefix)*tetrisWidth, tile->pos().y());
 
     if (tileCollide(0,0)) {
         if (a == 0) tile->flip();
