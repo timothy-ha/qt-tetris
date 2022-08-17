@@ -14,7 +14,7 @@ These features are just the bare minimum while making the game, and we believe t
 
 * **Aayush Koirala**: Aayush will deal with implementation of mouse and keyboard inputs. Aayush will also work on implementation of unique game sounds and hold section for the tiles in the game.<br/>
 
--**Elaine Huang:** Elaine will work on adding new game mode such as where the game randomly places a unique tile on the "gameMap". Elaine will also work on incoming tile selection, beautifying the game window, and extensive game testing to make sure bugs are reported to other members and fixed as well.<br/>
+* **Elaine Huang:** Elaine will work on adding new game mode such as where the game randomly places a unique tile on the "gameMap". Elaine will also work on incoming tile selection, beautifying the game window, and extensive game testing to make sure bugs are reported to other members and fixed as well.<br/>
 
 **To-Do**
 * ~~Textures~~
@@ -27,8 +27,8 @@ These features are just the bare minimum while making the game, and we believe t
 * ~~Music~~
 * ~~Hold~~
 * ~~Time~~
-* Piece Trajectory
-* Cleanup
+* ~~Piece Trajectory~~
+* ~~Cleanup~~
 
 **Controls**
 | Key      | Action |
